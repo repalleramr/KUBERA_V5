@@ -1,0 +1,265 @@
+/* ========================================================================
+   🔥 EPIC WARHUNT THEME (DARK FANTASY RPG STYLE)
+   ======================================================================== */
+:root {
+  --bg-dark: #050200;
+  --bg-panel: #110703;
+  --gold: #ffaa00;
+  --gold-dim: #995500;
+  --gold-bright: #ffdd66;
+  --text-main: #f7ebd1;
+  --red-glow: #cf4c3c;
+  --border-glow: rgba(255, 170, 0, 0.4);
+  --shadow-deep: rgba(0, 0, 0, 0.9);
+}
+
+*{box-sizing:border-box}
+html,body{height:100%; overflow-x: hidden; touch-action: manipulation;}
+body {
+    margin:0;
+    font-family: 'Marcellus', 'Palatino Linotype', serif;
+    color: var(--text-main);
+    background-color: var(--bg-dark);
+    /* Mimicking the fiery background */
+    background-image: 
+        radial-gradient(ellipse at top, rgba(255, 100, 0, 0.15), transparent 60%),
+        radial-gradient(circle at bottom, rgba(200, 50, 0, 0.2), transparent 70%);
+}
+
+button,input,select,table{font:inherit; outline: none;}
+button{cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation;}
+.hidden{display:none!important}
+#app{min-height:100dvh;padding-bottom:76px;position:relative;z-index:2;} 
+
+/* ========================================================================
+   🔥 HEADERS & BANNERS
+   ======================================================================== */
+.fixed-shell {
+    position: sticky; top: 0; z-index: 30; padding: 12px 16px 8px;
+    background: linear-gradient(180deg, rgba(10,5,0,0.95) 0%, rgba(10,5,0,0.8) 70%, transparent 100%);
+    border-bottom: 1px solid rgba(255, 170, 0, 0.1);
+}
+.topbar { display: flex; justify-content: space-between; align-items: center; }
+.brand {
+    font-family: 'Cinzel', serif;
+    font-weight: 800; font-size: 20px;
+    color: var(--gold-bright);
+    text-transform: uppercase;
+    text-shadow: 0 0 10px var(--gold), 0 2px 4px var(--shadow-deep);
+    letter-spacing: 1px;
+}
+.install-btn {
+    border: 1px solid var(--gold); border-radius: 8px; padding: 6px 12px;
+    font-family: 'Cinzel', serif; font-size: 12px;
+    box-shadow: 0 0 10px rgba(255, 170, 0, 0.5);
+}
+
+.content-pad { padding: 12px 16px 90px; } 
+.screen { display: none; animation: fadeInTab 0.4s ease-out; }
+.screen.active { display: block; }
+@keyframes fadeInTab { from { opacity: 0; transform: translateY(10px); filter: blur(2px); } to { opacity: 1; transform: translateY(0); filter: blur(0); } }
+
+/* The "Vijay Darshana" Alert Box */
+.epic-banner {
+    display: flex; align-items: center; gap: 12px;
+    background: linear-gradient(90deg, rgba(40,15,5,0.9), rgba(15,5,0,0.9));
+    border: 1px solid var(--gold-dim);
+    border-radius: 12px; padding: 12px 16px; margin-bottom: 16px;
+    box-shadow: inset 0 0 20px rgba(0,0,0,0.8), 0 4px 10px rgba(0,0,0,0.6);
+}
+.banner-icon {
+    font-size: 24px; filter: drop-shadow(0 0 5px var(--gold));
+}
+.banner-text { display: flex; flex-direction: column; }
+.banner-title {
+    font-family: 'Cinzel', serif; font-weight: 800; font-size: 14px; color: var(--gold);
+    letter-spacing: 1px;
+}
+.banner-sub { font-size: 13px; color: #fff; font-weight: bold; margin-top: 2px; }
+
+/* ========================================================================
+   🔥 THE ORNATE KEYPAD LAYOUT
+   ======================================================================== */
+.boards-compact {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
+}
+
+.board-block {
+    background: linear-gradient(180deg, #160a05, #0a0402);
+    border: 1px solid var(--gold-dim);
+    border-radius: 16px; padding: 12px;
+    box-shadow: inset 0 0 30px rgba(0,0,0,0.9), 0 8px 16px rgba(0,0,0,0.8);
+    position: relative;
+}
+/* Creating an ornate corner look using CSS gradients */
+.board-block::before, .board-block::after {
+    content: ''; position: absolute; width: 20px; height: 20px;
+    border: 2px solid var(--gold); opacity: 0.5; pointer-events: none;
+}
+.board-block::before { top: 0; left: 0; border-right: none; border-bottom: none; border-radius: 12px 0 0 0; }
+.board-block::after { bottom: 0; right: 0; border-left: none; border-top: none; border-radius: 0 0 12px 0; }
+
+.board-title {
+    font-family: 'Cinzel', serif; font-weight: 900; font-size: 22px; color: var(--gold);
+    text-align: center; text-shadow: 0 0 12px var(--gold);
+    margin-bottom: 12px; border-bottom: 1px solid rgba(255, 170, 0, 0.2);
+    padding-bottom: 8px;
+}
+
+.treasure-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;
+}
+
+/* Position the ZERO button in the middle column */
+.treasure-grid .zero { grid-column: 2; }
+/* Make the dummy keys subtle accents next to the zero */
+.treasure-grid .dummy { opacity: 0.3; transform: scale(0.6); }
+
+/* 🔥 The Heavy 3D Keys 🔥 */
+.treasure-grid .tile {
+    position: relative;
+    min-height: 65px;
+    background: linear-gradient(145deg, #2a1208, #0a0402);
+    border: 1px solid #773300;
+    border-radius: 10px;
+    color: var(--gold-bright); 
+    font-family: 'Cinzel', serif;
+    font-weight: 900;
+    font-size: 26px;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    box-shadow: 
+        inset 1px 1px 2px rgba(255,150,50,0.3), 
+        inset -2px -2px 6px rgba(0,0,0,0.8), 
+        0 4px 6px rgba(0,0,0,0.9);
+    text-shadow: 0 2px 4px rgba(0,0,0,0.8), 0 0 8px rgba(255,170,0,0.4);
+    transition: all 0.1s cubic-bezier(0.4, 0, 0.2, 1);
+    user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;
+}
+
+/* Key Press Glow */
+.treasure-grid .tile:active, .tile.key-glow {
+    transform: translateY(2px) scale(0.95);
+    background: linear-gradient(145deg, #552200, #110500);
+    border-color: var(--gold);
+    box-shadow: 
+        inset 0 0 15px rgba(0,0,0,0.9), 
+        0 0 15px rgba(255,170,0,0.6);
+    color: #fff; text-shadow: 0 0 10px #fff;
+}
+
+/* Tiny tracker labels */
+.treasure-grid .tile .meta {
+    position: absolute; bottom: 2px; right: 4px;
+    font-family: sans-serif; font-size: 11px !important; font-weight: 900; color: #FFF;
+    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+}
+
+/* ========================================================================
+   🔥 EPIC BUTTONS & STATUS BOXES
+   ======================================================================== */
+.action-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-top: 16px; }
+
+.epic-btn-red, .epic-btn-gold, .epic-btn-purple {
+    font-family: 'Cinzel', serif; font-weight: 800; font-size: 11px; text-transform: uppercase;
+    color: #fff; padding: 12px 4px; border-radius: 8px; border: 1px solid;
+    display: flex; align-items: center; justify-content: center; gap: 4px;
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.5), 0 4px 6px rgba(0,0,0,0.6);
+    transition: transform 0.1s; text-shadow: 0 2px 4px #000;
+}
+.epic-btn-red:active, .epic-btn-gold:active, .epic-btn-purple:active { transform: scale(0.95); }
+
+.epic-btn-red { background: linear-gradient(180deg, #5a1111, #220505); border-color: #ff4444; }
+.epic-btn-gold { background: linear-gradient(180deg, #5a3d00, #1a0f00); border-color: var(--gold); }
+.epic-btn-purple { background: linear-gradient(180deg, #3a115a, #110522); border-color: #cc44ff; }
+.btn-icon { font-size: 14px; }
+
+.status-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 16px; }
+.status-box {
+    background: linear-gradient(180deg, #110703, #050200);
+    border: 1px solid var(--gold-dim); border-radius: 12px; padding: 12px;
+    text-align: center; box-shadow: inset 0 0 15px rgba(0,0,0,0.9);
+}
+.status-label { font-family: 'Cinzel', serif; font-size: 11px; color: var(--gold-dim); font-weight: 900; letter-spacing: 1px; margin-bottom: 8px; }
+.status-value { font-family: 'Cinzel', serif; font-size: 24px; font-weight: 900; color: #fff; text-shadow: 0 0 10px rgba(255,255,255,0.3); }
+
+/* ========================================================================
+   🔥 BOTTOM NAVIGATION
+   ======================================================================== */
+.bottom-nav {
+    position: fixed; bottom: 0; width: 100%; z-index: 50;
+    background: linear-gradient(180deg, #1a0d06, #050200);
+    border-top: 1px solid var(--gold-dim);
+    display: flex; justify-content: space-around;
+    padding: 8px 4px calc(8px + env(safe-area-inset-bottom));
+    box-shadow: 0 -5px 20px rgba(0,0,0,0.9);
+}
+.bottom-nav button {
+    background: transparent; border: none; color: var(--gold-dim);
+    font-family: 'Cinzel', serif; font-size: 10px; font-weight: 800;
+    display: flex; flex-direction: column; align-items: center; gap: 4px;
+    opacity: 0.6; transition: all 0.2s;
+}
+.bottom-nav button::before { font-size: 20px; }
+/* Adding pseudo element icons for the tabs to match image */
+.bottom-nav button[data-target="sangram"]::before { content: '⚔️'; }
+.bottom-nav button[data-target="vyuha"]::before { content: '🛡️'; }
+.bottom-nav button[data-target="granth"]::before { content: '📜'; }
+.bottom-nav button[data-target="drishti"]::before { content: '👁️'; }
+.bottom-nav button[data-target="sopana"]::before { content: '🪜'; }
+.bottom-nav button[data-target="yantra"]::before { content: '⚙️'; }
+.bottom-nav button[data-target="medha"]::before { content: '🧠'; }
+
+.bottom-nav button.active {
+    opacity: 1; color: var(--gold-bright); transform: translateY(-3px);
+    text-shadow: 0 0 10px var(--gold); filter: drop-shadow(0 0 5px var(--gold));
+}
+
+/* ========================================================================
+   🔥 GENERAL CARDS, TABLES, & POPUPS
+   ======================================================================== */
+.card, .yantra-card {
+    background: linear-gradient(180deg, rgba(20,10,5,0.9), rgba(5,2,0,0.95));
+    border: 1px solid var(--gold-dim); border-radius: 12px; padding: 12px; margin-bottom: 12px;
+    box-shadow: inset 0 0 20px rgba(0,0,0,0.8), 0 4px 10px rgba(0,0,0,0.6);
+}
+.label { color: var(--gold-dim); font-size: 11px; font-family: 'Cinzel', serif; font-weight: 800; text-transform: uppercase; margin-bottom: 6px; }
+.split-grid, .summary-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+
+.table-wrap { overflow-x: auto; border: 1px solid var(--gold-dim); border-radius: 8px; background: rgba(0,0,0,0.6); }
+table { width: 100%; border-collapse: collapse; font-family: sans-serif; font-size: 12px; }
+th, td { padding: 8px; border-bottom: 1px solid rgba(255,170,0,0.1); text-align: left; }
+th { background: #110500; color: var(--gold); font-family: 'Cinzel', serif; font-weight: 800; }
+
+.settings-grid { display: grid; gap: 12px; }
+.settings-grid label { display: flex; flex-direction: column; gap: 4px; font-family: sans-serif; font-size: 12px; color: var(--gold-dim); }
+.settings-grid input, .settings-grid select { 
+    background: #000; border: 1px solid var(--gold-dim); color: #fff; padding: 8px; border-radius: 6px; font-family: sans-serif; 
+}
+
+/* Toast */
+.toast-layer { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 99999; display: grid; gap: 8px; pointer-events: none; width: 90%; max-width: 400px; }
+.toast { background: linear-gradient(90deg, #2a1208, #0a0402); border: 1px solid var(--gold); color: #fff; padding: 12px 16px; border-radius: 8px; box-shadow: 0 10px 25px rgba(0,0,0,0.9); font-family: sans-serif; animation: toastIn 0.3s ease-out forwards, toastOut 0.4s ease 3s forwards; }
+.toast .title { font-family: 'Cinzel', serif; font-size: 14px; color: var(--gold); font-weight: bold; margin-bottom: 4px; }
+.toast.warn { border-color: #cf4c3c; }
+.toast.warn .title { color: #ffb7b7; }
+@keyframes toastIn { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes toastOut { to { opacity: 0; } }
+
+/* Stage Popup */
+.stage-popup {
+    position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    background: radial-gradient(circle, #3a1a00, #0a0402);
+    border: 2px solid var(--gold); border-radius: 16px; padding: 20px 40px;
+    color: var(--gold-bright); font-family: 'Cinzel', serif; font-weight: 900; text-align: center;
+    box-shadow: 0 0 40px rgba(255,170,0,0.5), inset 0 0 20px rgba(0,0,0,0.9);
+    z-index: 99999; pointer-events: none; animation: popAnim 1.5s ease-out forwards;
+}
+.stage-popup span { font-size: 32px; display: block; margin-top: 8px; color: #fff; text-shadow: 0 0 15px var(--gold); }
+@keyframes popAnim { 0% { transform: translate(-50%, -50%) scale(0.5); opacity: 0; } 20% { transform: translate(-50%, -50%) scale(1.1); opacity: 1; } 80% { transform: translate(-50%, -50%) scale(1); opacity: 1; } 100% { transform: translate(-50%, -50%) scale(1.2); opacity: 0; } }
+
+/* Modals */
+.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(5px); display: flex; align-items: center; justify-content: center; z-index: 99999; }
+.modal-card { background: linear-gradient(180deg, #1a0a05, #0a0402); border: 2px solid var(--gold-dim); border-radius: 12px; padding: 20px; width: 90%; max-width: 350px; box-shadow: 0 10px 30px rgba(0,0,0,0.9); text-align: center; }
+.modal-title { font-family: 'Cinzel', serif; font-size: 18px; color: var(--gold); margin-bottom: 12px; }
+.modal-text { font-family: sans-serif; font-size: 14px; margin-bottom: 20px; line-height: 1.4; }
+.modal-actions { display: flex; gap: 12px; justify-content: center; }
