@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Kubera Omega</title>
+    <title>Kubera Warhunt</title>
     
     <link rel="manifest" href="./manifest.json">
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800;900&family=Marcellus&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Marcellus&display=swap" rel="stylesheet">
     
     <link rel="stylesheet" href="styles.css">
     
@@ -17,13 +17,14 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="theme-color" content="#0a0502">
 </head>
-<body data-vault-bg="bg-molten">
+<body>
 
     <div id="app">
-        <div class="fixed-shell">
-            <div class="topbar">
-                <div class="brand">KUBERA WARHUNT V5 PRO</div>
-                <button id="installBtn" class="install-btn" style="background: var(--gold); color: #000; font-weight: 900;">INSTALL</button>
+        <div class="epic-header-container">
+            <button id="installBtn" class="epic-install-btn hidden">⚙️</button>
+            <div class="epic-title">
+                KUBERA WARHUNT<br>
+                <span class="epic-subtitle">⟡ V5 PRO ⟡</span>
             </div>
         </div>
 
@@ -31,53 +32,57 @@
 
             <div id="screen-sangram" class="screen active">
                 
-                <div class="epic-banner" id="vijayBanner">
+                <div class="epic-banner">
                     <div class="banner-icon">🔥</div>
                     <div class="banner-text">
-                        <span class="banner-title">VIJAY DARSHANA</span>
-                        <span class="banner-sub" id="bankValue">Stash: 💎 0</span>
+                        <div class="banner-title">VIJAY DARSHANA</div>
+                        <div class="banner-stats">
+                            <span id="chakraValue">Wave 0</span> | <span id="bankValue">💎 0</span>
+                        </div>
                     </div>
+                    <div class="banner-bell">🔔</div>
                 </div>
 
-                <div class="boards-compact">
-                    <div class="card board-block">
-                        <div class="board-title">Y</div>
+                <div class="epic-boards-wrapper">
+                    <div class="epic-board-frame">
+                        <div class="board-header">Y</div>
                         <div class="treasure-grid" id="boardY"></div>
                     </div>
-                    <div class="card board-block">
-                        <div class="board-title">K</div>
+                    
+                    <div class="board-divider"></div>
+
+                    <div class="epic-board-frame">
+                        <div class="board-header">K</div>
                         <div class="treasure-grid" id="boardK"></div>
                     </div>
                 </div>
 
-                <div class="action-grid">
-                    <button id="kumbhaBtn" class="epic-btn-red"><span class="btn-icon">🔥</span> Clear Kumbha</button>
-                    <button id="undoBtn" class="epic-btn-gold"><span class="btn-icon">↩</span> Undo</button>
-                    <button id="prayogaBtn" class="epic-btn-purple"><span class="btn-icon">⚡</span> Prayoga</button>
+                <div class="status-grid">
+                    <div class="epic-status-box">
+                        <div class="status-label">🔥 LAST RESULT</div>
+                        <div class="status-value" id="lastResultValue">- | -</div>
+                    </div>
+                    <div class="epic-status-box">
+                        <div class="status-label">🔥 NEXT ÂHUTI</div>
+                        <div class="status-value" style="font-size: 16px;" id="nextY">Y -</div>
+                        <div class="status-value" style="font-size: 16px;" id="nextK">K -</div>
+                    </div>
                 </div>
 
-                <div class="status-grid">
-                    <div class="status-box">
-                        <div class="status-label"><span style="color: #ff4d4d;">🔥</span> LAST RESULT</div>
-                        <div class="status-value" id="lastResultValue">- VS -</div>
-                    </div>
-                    <div class="status-box">
-                        <div class="status-label"><span style="color: #ffaa00;">➔</span> NEXT AHUTI</div>
-                        <div class="status-value" style="font-size: 16px;" id="nextY">Y -</div>
-                        <div class="status-value" style="font-size: 16px; margin-top: 4px;" id="nextK">K -</div>
-                    </div>
+                <div class="action-grid">
+                    <button id="kumbhaBtn" class="epic-btn-red">🔥 Clear Kumbha</button>
+                    <button id="undoBtn" class="epic-btn-gold">↩ Undo</button>
+                    <button id="prayogaBtn" class="epic-btn-purple">⚡ Prayoga</button>
                 </div>
-                
-                <div style="text-align: center; margin-top: 10px; color: var(--gold); font-family: 'Marcellus', serif; font-size: 14px;" id="chakraValue">Wave : 0</div>
             </div>
 
             <div id="screen-vyuha" class="screen">
                 <div class="split-grid">
-                    <div class="card">
+                    <div class="epic-card">
                         <div class="label">Yaksha Array</div>
                         <div class="state-grid" id="vyuhaY"></div>
                     </div>
-                    <div class="card">
+                    <div class="epic-card">
                         <div class="label">Kinnara Array</div>
                         <div class="state-grid" id="vyuhaK"></div>
                     </div>
@@ -85,7 +90,7 @@
             </div>
 
             <div id="screen-granth" class="screen">
-                <div class="card">
+                <div class="epic-card">
                     <div class="toolbar">
                         <div class="label">Archive Controls</div>
                         <div class="btn-row">
@@ -93,7 +98,7 @@
                         </div>
                     </div>
                     <div class="action-strip">
-                        <select id="granthExportFormat" style="flex:1; background:rgba(0,0,0,0.8); border:1px solid var(--gold); color:#FFF; border-radius:10px; padding:8px; font-family: 'Cinzel', serif;">
+                        <select id="granthExportFormat" class="epic-select">
                             <option value="xlsx">Excel (.xlsx)</option>
                             <option value="csv">CSV Sheet</option>
                             <option value="json">JSON Backup</option>
@@ -103,7 +108,7 @@
                         <input type="file" id="importGranthFile" accept=".json,.csv,.xlsx" class="hidden">
                     </div>
                     <div class="action-strip" style="margin-top:8px;">
-                        <select id="deleteKumbhSelect" style="flex:2; background:rgba(0,0,0,0.8); border:1px solid #cf4c3c; color:#FFF; border-radius:10px; padding:8px; font-family: 'Cinzel', serif;">
+                        <select id="deleteKumbhSelect" class="epic-select" style="border-color: #cf4c3c;">
                             <option value="">Select Raid</option>
                         </select>
                         <button id="deleteGranthBtn" class="epic-btn-red" style="flex:1">Delete</button>
@@ -114,17 +119,17 @@
 
             <div id="screen-drishti" class="screen">
                 <div class="summary-grid">
-                    <div class="card"><div class="label">Total Waves</div><div class="stat-value" id="sumChakras">0</div></div>
-                    <div class="card"><div class="label">Total Magic</div><div class="stat-value" id="sumAhuti">0</div></div>
-                    <div class="card"><div class="label">Net Gain</div><div class="stat-value" id="sumProfit">0</div></div>
-                    <div class="card"><div class="label">Max Exposure</div><div class="stat-value" id="sumExposure">0</div></div>
+                    <div class="epic-card"><div class="label">Waves</div><div class="stat-value" id="sumChakras">0</div></div>
+                    <div class="epic-card"><div class="label">Magic</div><div class="stat-value" id="sumAhuti">0</div></div>
+                    <div class="epic-card"><div class="label">Net Gain</div><div class="stat-value" id="sumProfit">0</div></div>
+                    <div class="epic-card"><div class="label">Max Exp</div><div class="stat-value" id="sumExposure">0</div></div>
                 </div>
                 
-                <div class="card" style="margin-top: 12px;">
+                <div class="epic-card" style="margin-top: 12px;">
                     <div class="action-strip">
-                        <button id="exportCsvBtn" class="epic-btn-gold" style="flex:1">Export CSV</button>
-                        <button id="exportPdfBtn" class="epic-btn-gold" style="flex:1">Export PDF</button>
-                        <button id="loadCsvBtn" class="epic-btn-gold" style="flex:1">Import CSV</button>
+                        <button id="exportCsvBtn" class="epic-btn-gold" style="flex:1">CSV</button>
+                        <button id="exportPdfBtn" class="epic-btn-gold" style="flex:1">PDF</button>
+                        <button id="loadCsvBtn" class="epic-btn-gold" style="flex:1">Import</button>
                         <input type="file" id="loadCsvFile" accept=".csv" class="hidden">
                     </div>
                 </div>
@@ -132,10 +137,7 @@
                 <div class="table-wrap">
                     <table id="drishtiTable">
                         <thead>
-                            <tr>
-                                <th>Side</th><th>Summon</th><th>Act. Wave</th><th>Win Wave</th>
-                                <th>Tiers</th><th>Prev Loss</th><th>Win Bet</th><th>Net Profit</th><th>Status</th>
-                            </tr>
+                            <tr><th>Side</th><th>Sym</th><th>Act</th><th>Win</th><th>Trs</th><th>Loss</th><th>Bet</th><th>Net</th><th>Status</th></tr>
                         </thead>
                         <tbody></tbody>
                     </table>
@@ -143,7 +145,7 @@
             </div>
 
             <div id="screen-sopana" class="screen">
-                <div class="card">
+                <div class="epic-card">
                     <div class="action-strip">
                         <button id="saveLadderBtn" class="epic-btn-gold">Save Edit</button>
                         <button id="resetLadderBtn" class="epic-btn-red">Reset Default</button>
@@ -155,77 +157,45 @@
                     </div>
                 </div>
                 
-                <h3 style="color: var(--gold); margin-top: 16px; font-size: 14px; text-align: center;">Ladder 1 (Standard)</h3>
+                <h3 class="epic-table-title">Ladder 1 (Standard)</h3>
                 <div class="table-wrap">
                     <table id="ladderTable">
-                        <thead>
-                            <tr><th>Tier</th><th>Bet</th><th>Win Return</th><th>Net Profit</th><th>If Lose</th></tr>
-                        </thead>
+                        <thead><tr><th>Tier</th><th>Bet</th><th>Return</th><th>Net</th><th>If Lose</th></tr></thead>
                         <tbody></tbody>
                     </table>
                 </div>
 
-                <h3 style="color: var(--gold); margin-top: 16px; font-size: 14px; text-align: center;">Ladder 2 (Revive Mode)</h3>
+                <h3 class="epic-table-title">Ladder 2 (Revive Mode)</h3>
                 <div class="table-wrap">
                     <table id="secondLadderTable">
-                        <thead>
-                            <tr><th>Tier</th><th>Bet</th><th>Win Return</th><th>Net Profit</th><th>If Lose</th></tr>
-                        </thead>
+                        <thead><tr><th>Tier</th><th>Bet</th><th>Return</th><th>Net</th><th>If Lose</th></tr></thead>
                         <tbody></tbody>
                     </table>
                 </div>
             </div>
 
             <div id="screen-yantra" class="screen">
-                <div class="card yantra-card">
+                <div class="epic-card">
                     <div class="settings-grid">
-                        <label><span>Starting Stash</span><input type="number" id="setBankroll" inputmode="numeric"></label>
-                        <label><span>Target Gain (💎)</span><input type="number" id="setTargetDollar" inputmode="numeric"></label>
-                        <label><span>Target Gain (%)</span><input type="number" id="setTargetPercent" step="0.01" inputmode="decimal"></label>
-                        <label><span>Critical Stop Loss</span><input type="number" id="setStopLoss" inputmode="numeric"></label>
-                        <label><span>Minimum Bet</span><input type="number" id="setMin" inputmode="numeric"></label>
-                        <label><span>Maximum Bet</span><input type="number" id="setMax" inputmode="numeric"></label>
-                        <label><span>Coin Chip Size</span><input type="number" id="setCoin" inputmode="numeric"></label>
-                        <label><span>Recovery Target</span><input type="number" id="setTargetNum" inputmode="numeric"></label>
-                        <label><span>Max Tiers</span><input type="number" id="setMaxSteps" inputmode="numeric"></label>
-                        <label><span>Reserve Alert</span><input type="number" id="setReserve" inputmode="numeric"></label>
-                        <label><span>Stun Limit Per Number</span><input type="number" id="setStopLossPerNumber" inputmode="numeric"></label>
+                        <label><span>Starting Stash</span><input type="number" id="setBankroll" class="epic-input"></label>
+                        <label><span>Target Gain (💎)</span><input type="number" id="setTargetDollar" class="epic-input"></label>
+                        <label><span>Target Gain (%)</span><input type="number" id="setTargetPercent" step="0.01" class="epic-input"></label>
+                        <label><span>Critical Stop Loss</span><input type="number" id="setStopLoss" class="epic-input"></label>
+                        <label><span>Minimum Bet</span><input type="number" id="setMin" class="epic-input"></label>
+                        <label><span>Maximum Bet</span><input type="number" id="setMax" class="epic-input"></label>
+                        <label><span>Coin Chip Size</span><input type="number" id="setCoin" class="epic-input"></label>
+                        <label><span>Recovery Target</span><input type="number" id="setTargetNum" class="epic-input"></label>
+                        <label><span>Max Tiers</span><input type="number" id="setMaxSteps" class="epic-input"></label>
+                        <label><span>Reserve Alert</span><input type="number" id="setReserve" class="epic-input"></label>
+                        <label><span>Stun Limit Per Number</span><input type="number" id="setStopLossPerNumber" class="epic-input"></label>
                         
-                        <label><span>Keypad Mode</span>
-                            <select id="setKeypadMode">
-                                <option value="combined">Combined (Wait for both)</option>
-                                <option value="individual">Individual (Instant entry)</option>
-                            </select>
-                        </label>
-                        <label><span>Double Ladder</span>
-                            <select id="setDoubleLadder">
-                                <option value="on">Aggressive (x2)</option>
-                                <option value="off">Steady (+Coin)</option>
-                            </select>
-                        </label>
-                        <label><span>Stun Rule</span>
-                            <select id="setCapRule">
-                                <option value="on">Enabled (Ask at limit)</option>
-                                <option value="off">Disabled (Never Stop)</option>
-                            </select>
-                        </label>
-
-                        <label><span>Revive Mode (Cap Return)</span>
-                            <select id="setCapReturn">
-                                <option value="on">With Cap Return (Revive)</option>
-                                <option value="off">Without Cap Return (Stay Stunned)</option>
-                            </select>
-                        </label>
-
-                        <label><span>Attack Mode</span>
-                            <select id="setAttackMode">
-                                <option value="classic">Instant (Strike 1)</option>
-                                <option value="thirdstrike">Wait 1 (Strike 2)</option>
-                                <option value="fourthstrike">Wait 2 (Strike 3)</option>
-                            </select>
-                        </label>
+                        <label><span>Keypad Mode</span><select id="setKeypadMode" class="epic-select"><option value="combined">Combined</option><option value="individual">Individual</option></select></label>
+                        <label><span>Double Ladder</span><select id="setDoubleLadder" class="epic-select"><option value="on">Aggressive</option><option value="off">Steady</option></select></label>
+                        <label><span>Stun Rule</span><select id="setCapRule" class="epic-select"><option value="on">Enabled</option><option value="off">Disabled</option></select></label>
+                        <label><span>Revive Mode</span><select id="setCapReturn" class="epic-select"><option value="on">With Cap Return</option><option value="off">Without Cap Return</option></select></label>
+                        <label><span>Attack Mode</span><select id="setAttackMode" class="epic-select"><option value="classic">Instant</option><option value="thirdstrike">Wait 1</option><option value="fourthstrike">Wait 2</option></select></label>
                     </div>
-                    <div class="save-wrap">
+                    <div class="save-wrap" style="margin-top: 16px;">
                         <button id="applyYantraBtn" class="epic-btn-gold" style="width: 100%; padding: 14px; font-size: 16px;">Apply Configuration</button>
                     </div>
                 </div>
@@ -235,14 +205,14 @@
                 <div id="medhaPanel" class="medha-panel"></div>
             </div>
 
-        </div> <nav class="bottom-nav">
-            <button class="nav active" data-target="sangram">⚔️</button>
-            <button class="nav" data-target="vyuha">🛡️</button>
-            <button class="nav" data-target="granth">📜</button>
-            <button class="nav" data-target="drishti">👁️</button>
-            <button class="nav" data-target="sopana">🪜</button>
-            <button class="nav" data-target="yantra">⚙️</button>
-            <button class="nav" data-target="medha">🧠</button>
+        </div> <nav class="epic-bottom-nav">
+            <button class="nav active" data-target="sangram"><span class="nav-icon">⚔️</span>Sangram</button>
+            <button class="nav" data-target="vyuha"><span class="nav-icon">🛡️</span>Vyuha</button>
+            <button class="nav" data-target="granth"><span class="nav-icon">📜</span>Granth</button>
+            <button class="nav" data-target="drishti"><span class="nav-icon">👁️</span>Drishti</button>
+            <button class="nav" data-target="sopana"><span class="nav-icon">🪜</span>Sopana</button>
+            <button class="nav" data-target="yantra"><span class="nav-icon">⚙️</span>Yantra</button>
+            <button class="nav" data-target="medha"><span class="nav-icon">🧠</span>Medha</button>
         </nav>
     </div>
 
