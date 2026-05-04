@@ -1,246 +1,177 @@
 /* ========================================================================
-   🔥 EPIC WARHUNT THEME (MATCHING THE IMAGE)
+   🔥 IMAGE-BASED EPIC WARHUNT THEME 
    ======================================================================== */
 :root {
   --epic-bg: #050200;
-  --epic-panel: #110400;
   --gold-bright: #ffcc66;
   --gold-main: #d49a36;
   --gold-dim: #8b5a19;
-  --gold-dark: #3a1c00;
-  --fire-glow: #ff4d00;
   --text-main: #f7ebd1;
 }
 
 *{box-sizing:border-box}
 html,body{height:100%; overflow-x: hidden; touch-action: manipulation;}
 body {
-    margin:0;
-    font-family: 'Marcellus', serif;
-    color: var(--text-main);
-    background-color: var(--epic-bg);
-    /* Embers/Fire Background */
-    background-image: radial-gradient(circle at 50% 100%, rgba(255, 69, 0, 0.15) 0%, #000 80%), 
-                      url('https://images.unsplash.com/photo-1504194921103-f8b80cadd5e4?q=80&w=1000&auto=format&fit=crop');
+    margin:0; font-family: 'Marcellus', serif; color: var(--text-main); background-color: var(--epic-bg);
+    /* DUMMY MAIN BACKGROUND IMAGE */
+    background-image: radial-gradient(circle at 50% 100%, rgba(255, 69, 0, 0.2) 0%, rgba(0,0,0,0.9) 80%), 
+                      url('https://images.unsplash.com/photo-1618044733300-9472054094ee?q=80&w=1000&auto=format&fit=crop');
     background-size: cover; background-position: center; background-attachment: fixed;
     background-blend-mode: multiply;
 }
-
 button,input,select,table{font:inherit; outline:none;}
 button{cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation;}
 .hidden{display:none!important}
 #app{min-height:100dvh;padding-bottom:100px;position:relative;z-index:2;} 
 
 /* ========================================================================
-   🔥 HEADER & BANNER
+   🔥 DUMMY IMAGE URLS (REPLACE THESE WITH YOUR ACTUAL IMAGES)
    ======================================================================== */
-.epic-header-container {
-    text-align: center; padding: 24px 16px 12px;
-    background: linear-gradient(180deg, rgba(10,3,0,0.95), transparent);
-    position: relative;
+.epic-header-bg {
+    /* Top Header Background with Statue */
+    background-image: url('https://via.placeholder.com/600x150/110500/ffaa00?text=Top+Statue+Image');
+    background-size: cover; background-position: bottom center;
+    text-align: center; padding: 40px 16px 20px;
+    border-bottom: 2px solid var(--gold-dim); position: relative;
 }
-.epic-install-btn {
-    position: absolute; top: 20px; right: 20px;
-    background: transparent; border: none; font-size: 20px;
-    filter: drop-shadow(0 0 5px var(--gold-main));
-}
-.epic-title {
-    font-family: 'Cinzel', serif; font-weight: 900; font-size: 26px; color: var(--gold-bright);
-    letter-spacing: 2px; text-shadow: 0 0 15px var(--gold-main), 0 4px 6px #000;
-    line-height: 1.2;
-}
-.epic-subtitle { font-size: 14px; color: var(--gold-dim); letter-spacing: 4px; }
 
-.content-pad { padding: 4px 16px 90px; } 
+.epic-image-frame {
+    /* Ornate Gold Border Frame used for panels */
+    border: 10px solid transparent;
+    border-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30"><rect width="30" height="30" fill="none" stroke="%23ffaa00" stroke-width="4"/><circle cx="5" cy="5" r="2" fill="%23ffaa00"/><circle cx="25" cy="5" r="2" fill="%23ffaa00"/><circle cx="5" cy="25" r="2" fill="%23ffaa00"/><circle cx="25" cy="25" r="2" fill="%23ffaa00"/></svg>') 10 stretch;
+    background: rgba(10, 2, 0, 0.85);
+    box-shadow: inset 0 0 20px #000, 0 8px 15px rgba(0,0,0,0.8);
+    margin-bottom: 12px;
+}
+
+.board-image-divider {
+    /* Vertical Ornate Divider between Y and K */
+    width: 20px;
+    background-image: url('https://via.placeholder.com/20x300/110500/ffaa00?text=Div');
+    background-size: contain; background-repeat: no-repeat; background-position: center;
+}
+
+.image-nav-bg {
+    /* Bottom Navigation Background */
+    background-image: url('https://via.placeholder.com/600x80/110500/ffaa00?text=Bottom+Nav+Bar');
+    background-size: cover;
+}
+
+/* IMAGE BUTTONS */
+.epic-btn-image {
+    font-family: 'Cinzel', serif; font-weight: 800; font-size: 13px; color: #fff;
+    padding: 12px 0; border-radius: 8px; text-shadow: 0 2px 4px #000;
+    transition: transform 0.1s; border: none; box-shadow: inset 0 0 10px rgba(0,0,0,0.8);
+}
+.btn-red { background: url('https://via.placeholder.com/150x50/5a1111/ff0000?text=Red+Btn') center/cover; }
+.btn-gold { background: url('https://via.placeholder.com/150x50/5a3d00/ffaa00?text=Gold+Btn') center/cover; }
+.btn-purple { background: url('https://via.placeholder.com/150x50/3a115a/aa55ff?text=Purple+Btn') center/cover; }
+.epic-btn-image:active { transform: scale(0.95); }
+
+/* ========================================================================
+   🔥 TEXT & LAYOUT STRUCTURING
+   ======================================================================== */
+.epic-install-btn { position: absolute; top: 10px; right: 10px; background: transparent; border: none; font-size: 24px; filter: drop-shadow(0 0 5px var(--gold-main)); }
+.epic-title { font-family: 'Cinzel', serif; font-weight: 900; font-size: 24px; color: var(--gold-bright); letter-spacing: 2px; text-shadow: 0 0 15px var(--gold-main), 0 4px 6px #000; line-height: 1.2; }
+.epic-subtitle { font-size: 14px; color: var(--gold-dim); letter-spacing: 4px; }
+.content-pad { padding: 4px 12px 90px; } 
 .screen { display: none; animation: fadeInTab 0.4s ease-out; }
 .screen.active { display: block; }
 @keyframes fadeInTab { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-/* Vijay Darshana Banner */
-.epic-banner {
-    display: flex; align-items: center; justify-content: space-between;
-    background: linear-gradient(180deg, rgba(40,15,0,0.8), rgba(10,2,0,0.9));
-    border: 1px solid var(--gold-dim); border-radius: 12px;
-    padding: 12px 16px; margin-bottom: 16px;
-    box-shadow: inset 0 0 15px rgba(255,100,0,0.2), 0 4px 15px rgba(0,0,0,0.8);
-}
-.banner-icon { font-size: 24px; filter: drop-shadow(0 0 8px var(--fire-glow)); }
+/* Banner */
+.banner-frame { display: flex; align-items: center; justify-content: space-between; padding: 12px; }
+.banner-icon { font-size: 24px; filter: drop-shadow(0 0 8px #ff4d00); }
 .banner-text { flex-grow: 1; margin-left: 12px; }
 .banner-title { font-family: 'Cinzel', serif; font-weight: 800; font-size: 13px; color: var(--gold-bright); letter-spacing: 1px; }
 .banner-stats { font-family: 'Marcellus', serif; font-size: 14px; color: #fff; margin-top: 4px; }
-.banner-bell { font-size: 20px; color: var(--fire-glow); filter: drop-shadow(0 0 5px red); }
+.banner-bell { font-size: 20px; filter: drop-shadow(0 0 5px red); }
 
-/* ========================================================================
-   🔥 ORNATE BOARDS (Y & K)
-   ======================================================================== */
-.epic-boards-wrapper {
-    display: flex; gap: 8px; justify-content: center; align-items: stretch;
-    background: rgba(10,5,0,0.6); border-radius: 16px; padding: 12px 8px;
-    border: 1px solid var(--gold-dark);
-    box-shadow: inset 0 0 40px rgba(0,0,0,0.9), 0 10px 20px rgba(0,0,0,0.8);
-    position: relative;
-}
+/* Grid Layouts */
+.board-wrapper-frame { padding: 12px 8px; }
+.board-container { display: flex; gap: 4px; align-items: stretch; justify-content: space-between; }
+.board-side { flex: 1; display: flex; flex-direction: column; align-items: center; }
+.board-header { font-family: 'Cinzel', serif; font-weight: 900; font-size: 24px; margin-bottom: 8px; text-shadow: 0 0 10px rgba(255,255,255,0.2); }
 
-/* The glowing centerpiece divider */
-.board-divider {
-    width: 2px; background: linear-gradient(180deg, transparent, var(--gold-main), transparent);
-    box-shadow: 0 0 10px var(--fire-glow); margin: 20px 0; position: relative;
-}
-.board-divider::after {
-    content: '◈'; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-    color: var(--gold-bright); font-size: 18px; text-shadow: 0 0 10px var(--fire-glow);
-}
-
-.epic-board-frame { flex: 1; display: flex; flex-direction: column; align-items: center; }
-.board-header {
-    font-family: 'Cinzel', serif; font-weight: 900; font-size: 24px; color: var(--gold-bright);
-    margin-bottom: 12px; text-shadow: 0 0 15px var(--fire-glow);
-}
-
-.treasure-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; width: 100%; }
+.treasure-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; width: 100%; }
 .treasure-grid .zero { grid-column: 2; }
+.treasure-grid .dummy { opacity: 0.15; pointer-events: none; }
 
-/* The Epic Keys (Candy Crush inside) */
+/* The Keypads */
 .treasure-grid .tile {
-    position: relative; min-height: 55px; aspect-ratio: 1/1;
-    background: linear-gradient(145deg, #1f0d04, #080301);
+    position: relative; min-height: 52px; aspect-ratio: 1/1;
+    /* DUMMY BUTTON IMAGE */
+    background: url('https://via.placeholder.com/60x60/1a0a00/ffaa00?text=Key') center/cover;
     border: 1px solid var(--gold-dim); border-radius: 8px;
     color: var(--gold-bright); font-family: 'Cinzel', serif; font-weight: 900; font-size: 24px;
     display: flex; align-items: center; justify-content: center;
-    box-shadow: inset 2px 2px 5px rgba(255,170,0,0.2), inset -2px -2px 5px rgba(0,0,0,0.9), 0 4px 6px rgba(0,0,0,0.8);
-    transition: all 0.1s cubic-bezier(0.4, 0, 0.2, 1);
-    overflow: hidden; /* Contains the exploding candies */
+    box-shadow: inset 0 0 15px rgba(0,0,0,0.9), 0 4px 6px rgba(0,0,0,0.8);
+    transition: all 0.1s; overflow: hidden;
 }
-
-/* Dummy slots styled like the empty space in your image */
-.treasure-grid .dummy { opacity: 0.2; background: transparent; border-color: transparent; box-shadow: none; }
-
 .treasure-grid .tile:active, .tile.key-glow {
-    transform: scale(0.92);
-    background: linear-gradient(145deg, #4a2200, #1f0d04);
-    border-color: var(--gold-bright);
-    box-shadow: inset 0 0 20px rgba(0,0,0,0.9), 0 0 15px var(--fire-glow);
+    transform: scale(0.92); border-color: var(--gold-bright);
+    box-shadow: inset 0 0 20px rgba(0,0,0,0.9), 0 0 15px #ff4d00;
 }
+.treasure-grid .tile .meta { position: absolute; bottom: 2px; right: 4px; font-family: sans-serif; font-size: 10px !important; font-weight: 900; color: #FFF; text-shadow: 0 1px 3px #000; z-index: 10; pointer-events: none; }
+.tile .meta.step1 { color: #40b46b !important; } .tile .meta.step5, .tile .meta.step6 { color: #ff4d4d !important; }
 
-/* Tiny tracker labels */
-.treasure-grid .tile .meta {
-    position: absolute; bottom: 2px; right: 4px;
-    font-family: sans-serif; font-size: 10px !important; font-weight: 900; color: #FFF;
-    text-shadow: 0 1px 3px #000; z-index: 10; pointer-events: none;
-}
-.tile .meta.step1 { color: #40b46b !important; } 
-.tile .meta.step5, .tile .meta.step6 { color: #ff4d4d !important; }
-
-/* ========================================================================
-   🔥 CANDY CRUSH OVERLAY CSS (Runs inside the epic keys)
-   ======================================================================== */
+/* Overlay Animations (Candy Crush) */
 .decoy-symbol { position: relative; z-index: 2; font-size: 28px; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.8)); display: block; }
-@keyframes candyBlast { 0% { transform: scale(1); opacity: 1; } 40% { transform: scale(1.6) rotate(15deg); filter: drop-shadow(0 0 15px var(--fire-glow)); } 100% { transform: scale(0); opacity: 0; } }
+@keyframes candyBlast { 0% { transform: scale(1); opacity: 1; } 40% { transform: scale(1.6) rotate(15deg); filter: drop-shadow(0 0 15px #ff4d00); } 100% { transform: scale(0); opacity: 0; } }
 @keyframes candyDrop { 0% { transform: translateY(-60px) scale(0.9); opacity: 0.5; } 60% { transform: translateY(5px); opacity: 1; } 100% { transform: translateY(0); } }
 @keyframes candyDropTop { 0% { transform: translateY(-100px) scale(0.5); opacity: 0; } 60% { transform: translateY(5px); opacity: 1; } 100% { transform: translateY(0); } }
-
 .decoy-overlay { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; z-index: 4; pointer-events: none; }
-.decoy-score { font-family: 'Cinzel', serif; font-size: 14px; font-weight: 900; color: #FFF; text-shadow: 0 0 10px var(--fire-glow); }
-.decoy-stun { font-size: 24px; filter: drop-shadow(0 0 8px red); }
 .particle { position: fixed; pointer-events: none; z-index: 9999; font-size: 24px; animation: explodeParticle 0.8s cubic-bezier(0.25, 1, 0.5, 1) forwards; }
 @keyframes explodeParticle { 0% { transform: translate(-50%, -50%) scale(0.5); opacity: 1; } 100% { transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(1.5) rotate(45deg); opacity: 0; } }
 
-/* ========================================================================
-   🔥 BOTTOM BUTTONS & STATUS
-   ======================================================================== */
-.status-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 16px; }
-.epic-status-box {
-    background: linear-gradient(180deg, #110500, #050200);
-    border: 1px solid var(--gold-dim); border-radius: 8px; padding: 12px;
-    text-align: center; box-shadow: inset 0 0 15px rgba(0,0,0,0.9);
-}
-.status-label { font-family: 'Cinzel', serif; font-size: 10px; color: var(--gold-main); font-weight: 800; letter-spacing: 1px; margin-bottom: 6px; text-transform: uppercase; }
+/* Status & Layouts */
+.status-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 12px; }
+.small-frame { padding: 10px; margin-bottom: 0; }
+.text-center { text-align: center; }
+.status-label { font-family: 'Cinzel', serif; font-size: 10px; color: var(--gold-main); font-weight: 800; margin-bottom: 6px; }
 .status-value { font-family: 'Cinzel', serif; font-size: 22px; font-weight: 900; color: #fff; text-shadow: 0 0 10px rgba(255,255,255,0.2); }
+.status-value-split { display: flex; justify-content: space-around; font-family: 'Cinzel', serif; font-size: 16px; font-weight: 900; color: #fff; }
+.action-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-top: 12px; }
 
-.action-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-top: 16px; }
-.epic-btn-red, .epic-btn-gold, .epic-btn-purple {
-    font-family: 'Cinzel', serif; font-weight: 800; font-size: 12px; color: #fff;
-    padding: 12px 0; border-radius: 8px; border: 1px solid;
-    text-align: center; box-shadow: inset 0 0 10px rgba(0,0,0,0.8), 0 4px 6px rgba(0,0,0,0.6);
-    text-shadow: 0 2px 4px #000; transition: transform 0.1s;
-}
-.epic-btn-red:active, .epic-btn-gold:active, .epic-btn-purple:active { transform: scale(0.95); }
-.epic-btn-red { background: linear-gradient(180deg, #661100, #220000); border-color: #ff3300; }
-.epic-btn-gold { background: linear-gradient(180deg, #664400, #221100); border-color: var(--gold-main); }
-.epic-btn-purple { background: linear-gradient(180deg, #441166, #110022); border-color: #aa55ff; }
-
-/* ========================================================================
-   🔥 OTHER TABS (CARDS, TABLES, INPUTS)
-   ======================================================================== */
-.epic-card {
-    background: linear-gradient(180deg, rgba(20,10,0,0.85), rgba(5,2,0,0.95));
-    border: 1px solid var(--gold-dim); border-radius: 12px; padding: 16px; margin-bottom: 12px;
-    box-shadow: inset 0 0 20px rgba(0,0,0,0.8), 0 5px 15px rgba(0,0,0,0.6);
-}
-.label { color: var(--gold-main); font-size: 11px; font-family: 'Cinzel', serif; font-weight: 800; text-transform: uppercase; margin-bottom: 8px; }
-.split-grid, .summary-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-.stat-value { font-family: 'Cinzel', serif; font-size: 22px; font-weight: 900; color: #fff; text-shadow: 0 0 10px var(--fire-glow); }
-
-.table-wrap { overflow-x: auto; border: 1px solid var(--gold-dark); border-radius: 8px; background: rgba(0,0,0,0.8); }
-table { width: 100%; border-collapse: collapse; font-size: 12px; }
-th, td { padding: 10px; border-bottom: 1px solid rgba(255,170,0,0.1); text-align: center; }
-th { background: #110500; color: var(--gold-main); font-family: 'Cinzel', serif; font-weight: 800; }
-
-.action-strip { display: flex; gap: 8px; }
-.epic-input, .epic-select { 
-    background: #0a0402; border: 1px solid var(--gold-dim); color: #fff; 
-    padding: 10px; border-radius: 6px; width: 100%; font-family: 'Marcellus', serif; 
-}
-#ladderTable input, #secondLadderTable input { width: 8ch; padding: 6px; text-align: center; background: #110500; border: 1px solid var(--gold-dark); color: #fff; }
-
-.settings-grid { display: grid; gap: 12px; }
-.settings-grid label { display: flex; flex-direction: column; gap: 6px; font-size: 12px; color: var(--gold-main); font-family: 'Cinzel', serif; font-weight: 600;}
-
-/* ========================================================================
-   🔥 BOTTOM NAVIGATION (MOBILE)
-   ======================================================================== */
+/* Bottom Nav */
 .epic-bottom-nav {
-    position: fixed; bottom: 0; width: 100%; z-index: 50;
-    background: linear-gradient(180deg, #1a0a00, #050200);
-    border-top: 1px solid var(--gold-dim);
-    display: flex; justify-content: space-around;
-    padding: 8px 4px calc(8px + env(safe-area-inset-bottom));
+    position: fixed; bottom: 0; width: 100%; z-index: 50; border-top: 1px solid var(--gold-dim);
+    display: flex; justify-content: space-around; padding: 12px 4px calc(12px + env(safe-area-inset-bottom));
     box-shadow: 0 -5px 20px rgba(0,0,0,0.9);
 }
 .epic-bottom-nav button {
-    background: transparent; border: none; color: var(--gold-dim);
-    font-family: 'Cinzel', serif; font-size: 9px; font-weight: 800; text-transform: uppercase;
-    display: flex; flex-direction: column; align-items: center; gap: 4px;
-    opacity: 0.5; transition: all 0.2s;
+    background: transparent; border: none; color: var(--gold-dim); font-family: 'Cinzel', serif; font-size: 9px; font-weight: 800; text-transform: uppercase;
+    display: flex; flex-direction: column; align-items: center; gap: 4px; opacity: 0.6; transition: all 0.2s;
 }
-.nav-icon { font-size: 20px; filter: grayscale(100%); }
-.epic-bottom-nav button.active { opacity: 1; color: var(--gold-bright); transform: translateY(-4px); text-shadow: 0 0 10px var(--fire-glow); }
+.nav-icon { font-size: 22px; filter: grayscale(100%); }
+.epic-bottom-nav button.active { opacity: 1; color: var(--gold-bright); transform: translateY(-4px); }
 .epic-bottom-nav button.active .nav-icon { filter: none; filter: drop-shadow(0 0 5px var(--gold-main)); }
 
-/* ========================================================================
-   🔥 TOASTS & MODALS
-   ======================================================================== */
+/* Tables & Settings */
+.split-grid, .summary-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.table-wrap { overflow-x: auto; background: rgba(0,0,0,0.6); }
+table { width: 100%; border-collapse: collapse; font-size: 12px; }
+th, td { padding: 10px; border-bottom: 1px solid rgba(255,170,0,0.1); text-align: center; }
+th { color: var(--gold-main); font-family: 'Cinzel', serif; font-weight: 800; }
+.epic-input, .epic-select { background: #0a0402; border: 1px solid var(--gold-dim); color: #fff; padding: 10px; border-radius: 6px; width: 100%; font-family: 'Marcellus', serif; }
+.action-strip { display: flex; gap: 8px; }
+.settings-grid { display: grid; gap: 12px; }
+.settings-grid label { display: flex; flex-direction: column; gap: 6px; font-size: 12px; color: var(--gold-main); font-family: 'Cinzel', serif; font-weight: 600;}
+
+/* Popups */
 .toast-layer { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 99999; display: grid; gap: 8px; pointer-events: none; width: 90%; max-width: 400px; }
 .toast { background: linear-gradient(90deg, #2a1208, #0a0402); border: 1px solid var(--gold-main); color: #fff; padding: 12px 16px; border-radius: 8px; box-shadow: 0 10px 25px rgba(0,0,0,0.9); animation: toastIn 0.3s ease-out forwards, toastOut 0.4s ease 3s forwards; }
 .toast .title { font-family: 'Cinzel', serif; font-size: 14px; color: var(--gold-bright); font-weight: bold; margin-bottom: 4px; }
-.toast.warn { border-color: #cf4c3c; }
-.toast.warn .title { color: #ff4d4d; }
+.toast.warn { border-color: #cf4c3c; } .toast.warn .title { color: #ff4d4d; }
 @keyframes toastIn { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
 @keyframes toastOut { to { opacity: 0; } }
 
-.stage-popup {
-    position: fixed; top: 40%; left: 50%; transform: translate(-50%, -50%);
-    background: radial-gradient(circle, #3a1a00, #0a0402);
-    border: 2px solid var(--gold-bright); border-radius: 16px; padding: 20px 40px;
-    color: var(--gold-bright); font-family: 'Cinzel', serif; font-weight: 900; text-align: center;
-    box-shadow: 0 0 40px rgba(255,170,0,0.5), inset 0 0 20px rgba(0,0,0,0.9);
-    z-index: 99999; pointer-events: none; animation: popAnim 1.5s ease-out forwards;
-}
-.stage-popup span { font-size: 36px; display: block; margin-top: 8px; color: #fff; text-shadow: 0 0 15px var(--fire-glow); }
+.stage-popup { position: fixed; top: 40%; left: 50%; transform: translate(-50%, -50%); background: radial-gradient(circle, #3a1a00, #0a0402); border: 2px solid var(--gold-bright); border-radius: 16px; padding: 20px 40px; color: var(--gold-bright); font-family: 'Cinzel', serif; font-weight: 900; text-align: center; box-shadow: 0 0 40px rgba(255,170,0,0.5), inset 0 0 20px rgba(0,0,0,0.9); z-index: 99999; pointer-events: none; animation: popAnim 1.5s ease-out forwards; }
+.stage-popup span { font-size: 36px; display: block; margin-top: 8px; color: #fff; text-shadow: 0 0 15px #ff4d00; }
 @keyframes popAnim { 0% { transform: translate(-50%, -50%) scale(0.5); opacity: 0; } 15% { transform: translate(-50%, -50%) scale(1.1); opacity: 1; } 80% { transform: translate(-50%, -50%) scale(1); opacity: 1; } 100% { transform: translate(-50%, -50%) scale(1.2); opacity: 0; } }
 
 .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(5px); display: flex; align-items: center; justify-content: center; z-index: 99999; }
-.modal-card { background: linear-gradient(180deg, #1a0a05, #0a0402); border: 2px solid var(--gold-dim); border-radius: 12px; padding: 24px; width: 90%; max-width: 350px; box-shadow: 0 10px 30px rgba(0,0,0,0.9); text-align: center; }
+.modal-card { text-align: center; padding: 24px; }
 .modal-title { font-family: 'Cinzel', serif; font-size: 18px; color: var(--gold-bright); margin-bottom: 12px; }
 .modal-text { font-family: 'Marcellus', serif; font-size: 15px; margin-bottom: 24px; }
 .modal-actions { display: flex; gap: 12px; justify-content: center; }
