@@ -1,6 +1,5 @@
 const STORAGE_KEY = 'kubera-warhunt-v5pro-final-locked';
 
-// 🔥 CANDY CRUSH SYMBOLS (Intact) 🔥
 const puzzleSymbols = ['🍬', '🍭', '🍫', '🍩', '🍪', '🧁', '🧊', '🍇', '🍓', '🍒', '🍋', '🍏', '🍉', '🍯'];
 const romanMap = ['🌀', 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX'];
 
@@ -183,7 +182,6 @@ function statusCode(info){
 }
 function vijayDarshanaDisplay(info){ const bet=currentBetFor(info); return { bet, displayStep:Math.max(1,(Number(info.step)||1)-1), displayNet:(bet*8)-(Number(info.prevLoss)||0) }; }
 
-// 🔥 RENDERS EPIC ORNATE BOARDS BUT KEEPS CANDIES INSIDE 🔥
 function renderBoards(){
   ['Y','K'].forEach(side=>{
     const host=q(side==='Y'?'boardY':'boardK'); if(!host) return;
@@ -194,7 +192,7 @@ function renderBoards(){
             const btn = document.createElement('button');
             btn.dataset.side = side; btn.dataset.num = String(n);
             btn.innerHTML = `
-                <div class="num" style="display: block !important; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 50px !important; font-weight: 900; color: rgba(255, 170, 0, 0.15) !important; z-index: 1; pointer-events: none;">${n === 'D1' || n === 'D2' ? '' : n}</div>
+                <div class="num" style="display: block !important; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 55px !important; font-weight: 900; color: rgba(255, 255, 255, 0.18) !important; z-index: 1; pointer-events: none;">${n === 'D1' || n === 'D2' ? '' : n}</div>
                 <div class="decoy-symbol">${n === 'D1' || n === 'D2' ? '' : puzzleSymbols[Math.floor(Math.random() * puzzleSymbols.length)]}</div>
                 <div class="decoy-overlay"></div>
                 <div class="meta"></div>
@@ -219,15 +217,15 @@ function renderBoards(){
 
         const overlay = btn.querySelector('.decoy-overlay');
         const sym = btn.querySelector('.decoy-symbol');
-        
+
         if(overlay) {
             if (!isDummy && !isZero && info && info.status === 'L') {
-                overlay.innerHTML = `<div class="decoy-score" style="background: rgba(0,0,0,0.8) !important; width: 100%; height: 100%; display:flex; align-items:center; justify-content:center; flex-direction: column;">👑<br><span style="font-size:12px">${info.lastNet || 0}</span></div>`;
-                if(sym) sym.style.opacity = '0.3';
+                overlay.innerHTML = `<div class="decoy-score" style="background: rgba(0,0,0,0.8); width: 100%; height: 100%; display:flex; align-items:center; justify-content:center; flex-direction: column;">👑<br><span style="font-size:12px">${info.lastNet || 0}</span></div>`;
+                if(sym) sym.style.opacity = '0.1';
             }
             else if (!isDummy && !isZero && info && info.status === 'C') {
-                overlay.innerHTML = `<div class="decoy-stun" style="background: rgba(80,0,0,0.8) !important; width: 100%; height: 100%; display:flex; align-items:center; justify-content:center;">⛓️</div>`;
-                if(sym) sym.style.opacity = '0.3';
+                overlay.innerHTML = `<div class="decoy-stun" style="background: rgba(80,0,0,0.8); width: 100%; height: 100%; display:flex; align-items:center; justify-content:center;">⛓️</div>`;
+                if(sym) sym.style.opacity = '0.1';
             }
             else { 
                 overlay.innerHTML = ''; 
@@ -248,8 +246,8 @@ function renderVyuha(){ ['Y','K'].forEach(side=>{ const host=q(side==='Y'?'vyuha
 function formatNextAhuti(side){ const groups=new Map(); for(let n=1;n<=9;n++){ const preview=previewNextAhutiFor(state.numbers[side][n]); if(preview){ if(!groups.has(preview.bet)) groups.set(preview.bet,[]); groups.get(preview.bet).push(`[ ${romanMap[Number(n)]} ] (Lv${preview.stepLabel.replace('T', '')})`); } } const parts=[...groups.entries()].sort((a,b)=>b[0]-a[0]).map(([bet,arr])=>`+ ${bet} ➔ ${arr.join(' & ')}`); return `${side === 'Y' ? 'YAKSHA' : 'KINNARA'}: ${parts.join(' | ') || 'Idle'}`; }
 
 function renderSangram(){ 
-    if(q('bankValue')) q('bankValue').textContent=`💎 ${Number(state.liveBankroll).toLocaleString('en-IN')}`; 
-    if(q('chakraValue')) q('chakraValue').textContent=`Wave ${state.currentChakra}`; 
+    if(q('bankValue')) q('bankValue').innerHTML=`100 <span style="color:#40b46b">Net +${Number(state.liveBankroll - state.settings.bankroll).toLocaleString('en-IN')}</span>`; 
+    if(q('chakraValue')) q('chakraValue').textContent=`Y${state.currentChakra} S1`; 
     if(q('nextY')) q('nextY').textContent=formatNextAhuti('Y'); 
     if(q('nextK')) q('nextK').textContent=formatNextAhuti('K'); 
     
@@ -263,7 +261,7 @@ function renderSangram(){
     }
     
     if(q('lastResultValue')) {
-        q('lastResultValue').innerHTML = `<span style="color: var(--gold-main);">${displayY}</span> <span style="font-size: 14px; color: #555;">|</span> <span style="color: var(--fire-glow);">${displayK}</span>`; 
+        q('lastResultValue').innerHTML = `${displayY} | ${displayK}`; 
     }
 }
 
@@ -298,8 +296,8 @@ function kumbhInsights(rows){
     processSide('Y', row.y, chakra, meta); processSide('K', row.k, chakra, meta); rowMeta.set(chakra, meta);
   }
   
-  const yStats = Object.entries(counts.Y).filter(([n])=>n!=='0').map(([n,c])=>`<span class="pill">[${romanMap[Number(n)]}]: ${c}</span>`);
-  const kStats = Object.entries(counts.K).filter(([n])=>n!=='0').map(([n,c])=>`<span class="pill">[${romanMap[Number(n)]}]: ${c}</span>`);
+  const yStats = Object.entries(counts.Y).filter(([n])=>n!=='0').map(([n,c])=>`[${romanMap[Number(n)]}]: ${c}`);
+  const kStats = Object.entries(counts.K).filter(([n])=>n!=='0').map(([n,c])=>`[${romanMap[Number(n)]}]: ${c}`);
   
   return { 
       rowMeta, counts, details, 
@@ -312,10 +310,10 @@ function renderGranth(){
   const host=q('granthList'); if(!host) return; host.innerHTML='';
   const sel=q('deleteKumbhSelect');
   if(sel){ sel.innerHTML='<option value=>Select Raid</option>'; if(Array.isArray(state.granth)) state.granth.forEach(k=>{ const op=document.createElement('option'); op.value=String(k.id); op.textContent=`#${String(k.id).padStart(2,'0')} Raid Log`; sel.appendChild(op); }); }
-  if(!Array.isArray(state.granth) || !state.granth.length){ host.innerHTML='<div class="epic-card" style="text-align:center;">No Raid history yet.</div>'; return; }
+  if(!Array.isArray(state.granth) || !state.granth.length){ host.innerHTML='<div class="epic-image-frame" style="text-align:center;">No Raid history yet.</div>'; return; }
   const items=[...state.granth].reverse();
   items.forEach(k=>{
-    const wrap=document.createElement('div'); wrap.className='epic-card'; const insight=kumbhInsights(k.rows||[]);
+    const wrap=document.createElement('div'); wrap.className='epic-image-frame'; const insight=kumbhInsights(k.rows||[]);
     const rows=[...(k.rows||[])].reverse().map(r=>{
       const meta=insight.rowMeta.get(Number(r.chakra)) || { ySelCode:'-', yHitCode:'-', kSelCode:'-', kHitCode:'-', capped:[], returned:[] };
       return `<tr><td>${r.chakra}</td><td style="font-weight:900; color:var(--gold-bright);">${r.y}</td><td style="font-weight:900; color:var(--gold-bright);">${r.k}</td><td>${meta.ySelCode}</td><td>${meta.yHitCode}</td><td>${meta.kSelCode}</td><td>${meta.kHitCode}</td><td>${formatRoundInfoEntries(meta.capped)}</td><td>${formatRoundInfoEntries(meta.returned)}</td><td>${formatRoundInfoEntries(Array.isArray(r.np)?r.np:(r.np?[r.np]:[]))}</td><td>${r.axyapatra ?? '-'}</td></tr>`;
@@ -329,7 +327,7 @@ function renderGranth(){
 function renderDrishti(){ if(q('sumChakras')) q('sumChakras').textContent=Math.max(0,state.currentChakra); if(q('sumAhuti')) q('sumAhuti').textContent=state.summary.totalAhuti; if(q('sumProfit')) q('sumProfit').textContent=state.liveBankroll-state.settings.bankroll; if(q('sumExposure')) q('sumExposure').textContent=state.summary.maxExposure; const dt=q('drishtiTable'); if(!dt) return; const tbody=dt.querySelector('tbody'); if(!tbody) return; tbody.innerHTML=''; if(Array.isArray(state.drishti)) [...state.drishti].reverse().forEach(r=>{ const tr=document.createElement('tr'); tr.innerHTML=`<td>${r.side}</td><td><span style="font-size:16px; color:var(--gold-bright); font-weight:bold;">${r.number}</span></td><td>${r.activationChakra}</td><td>${r.winChakra}</td><td>${r.steps}</td><td>${r.prevLoss}</td><td>${r.winBet}</td><td>${r.net}</td><td>${r.status}</td>`; tbody.appendChild(tr); }); }
 function renderSopana(){ const lt=q('ladderTable'); if(!lt) return; const tbody=lt.querySelector('tbody'); if(!tbody) return; tbody.innerHTML=''; state.ladder.forEach((row,idx)=>{ const tr=document.createElement('tr'); tr.innerHTML=`<td>${row.step}</td><td><input type="number" data-ladder-index="${idx}" inputmode="numeric" enterkeyhint="next" value="${row.bet}"></td><td>${row.winReturn}</td><td>${row.netProfit}</td><td>${row.ifLoseTotal}</td>`; tbody.appendChild(tr); }); const secondTable=q('secondLadderTable'); if(secondTable){ const tbody2=secondTable.querySelector('tbody'); if(tbody2) { tbody2.innerHTML=''; let prevLoss=0; for(let i=1;i<=Math.min(state.settings.maxSteps,15);i++){ const bet=secondLadderBet(i); const winReturn=bet*9; prevLoss += bet; const tr=document.createElement('tr'); tr.innerHTML=`<td>T${i}</td><td><input type="number" data-second-ladder-index="${i-1}" inputmode="numeric" enterkeyhint="next" value="${bet}"></td><td>${winReturn}</td><td>${winReturn - prevLoss}</td><td>${-prevLoss}</td>`; tbody2.appendChild(tr); } } } }
 function renderYantra(){ const s=state.settings; if(q('setBankroll')) q('setBankroll').value=s.bankroll; if(q('setTargetDollar')) q('setTargetDollar').value=s.targetDollar; if(q('setTargetPercent')) q('setTargetPercent').value=s.targetPercent; if(q('setStopLoss')) q('setStopLoss').value=s.stopLoss; if(q('setMin')) q('setMin').value=s.min; if(q('setMax')) q('setMax').value=s.max; if(q('setCoin')) q('setCoin').value=s.coin; if(q('setTargetNum')) q('setTargetNum').value=s.targetNum; if(q('setDoubleLadder')) q('setDoubleLadder').value=s.doubleLadder||'on'; if(q('setKeypadMode')) q('setKeypadMode').value=s.keypadMode; if(q('setMaxSteps')) q('setMaxSteps').value=s.maxSteps; if(q('setReserve')) q('setReserve').value=s.reserve; if(q('setCapRule')) q('setCapRule').value=s.capRule; if(q('setCapReturn')) q('setCapReturn').value=s.capReturn || 'on'; if(q('setAttackMode')) q('setAttackMode').value=s.attackMode || 'classic'; }
-function renderMedha(){ const active=[]; const cap=[]; ['Y','K'].forEach(side=>{ for(let n=1;n<=9;n++){ const info=state.numbers[side][n]; if(info.status==='A'||info.status==='B') active.push(`${side} ${n} T${info.step}`); if(info.status==='C') cap.push(`${side} ${n}`);} }); if(q('medhaPanel')) q('medhaPanel').innerHTML=`<div class="epic-card"><div class="label">Active Summons</div><div style="font-size:16px">${active.join(' | ') || 'None'}</div></div><div class="epic-card" style="margin-top:10px;"><div class="label">Stunned Summons</div><div style="font-size:16px">${cap.join(' | ') || 'None'}</div></div>`; }
+function renderMedha(){ const active=[]; const cap=[]; ['Y','K'].forEach(side=>{ for(let n=1;n<=9;n++){ const info=state.numbers[side][n]; if(info.status==='A'||info.status==='B') active.push(`${side} ${n} T${info.step}`); if(info.status==='C') cap.push(`${side} ${n}`);} }); if(q('medhaPanel')) q('medhaPanel').innerHTML=`<div class="epic-image-frame"><div class="label">Active Summons</div><div style="font-size:16px">${active.join(' | ') || 'None'}</div></div><div class="epic-image-frame" style="margin-top:10px;"><div class="label">Stunned Summons</div><div style="font-size:16px">${cap.join(' | ') || 'None'}</div></div>`; }
 function renderActiveTab(){ document.querySelectorAll('.screen').forEach(s=>s.classList.toggle('active',s.id===`screen-${state.activeTab}`)); document.querySelectorAll('.nav').forEach(b=>b.classList.toggle('active',b.dataset.target===state.activeTab)); }
 function renderAll(){ applyTheme(state.settings.theme || 'warhunt'); applyBackground(state.settings.vaultBg || 'bg-molten'); renderActiveTab(); renderBoards(); renderVyuha(); renderSangram(); renderGranth(); renderDrishti(); renderSopana(); renderYantra(); renderMedha(); saveState(); }
 
@@ -431,7 +429,6 @@ async function processIndividual(side,num){ recordSnapshot(); state.currentChakr
   renderAll(); notes.forEach(n=>showToast(n.title,n.text,n.kind||'')); }
 function flashLockedKey(el){ if(!el) return; el.classList.add('key-locked-flash'); setTimeout(()=>el.classList.remove('key-locked-flash'), 220); }
 
-// 🔥 CANDY CRUSH CASCADE ENGINE 🔥
 function triggerCascade(side, clickedNum) {
     const cols = {
        '1': [1,4,7,'D1'], '4': [1,4,7,'D1'], '7': [1,4,7,'D1'], 'D1': [1,4,7,'D1'],
