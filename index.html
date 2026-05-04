@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Kubera Omega</title>
+    
+    <link rel="manifest" href="./manifest.json">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800;900&family=Marcellus&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="styles.css">
+    
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#0a0502">
+</head>
+<body data-vault-bg="bg-molten">
+
+    <div id="app">
+        <div class="fixed-shell">
+            <div class="topbar">
+                <div class="brand">KUBERA WARHUNT V5 PRO</div>
+                <button id="installBtn" class="install-btn" style="background: var(--gold); color: #000; font-weight: 900;">INSTALL</button>
+            </div>
+        </div>
+
+        <div class="content-pad">
+
+            <div id="screen-sangram" class="screen active">
+                
+                <div class="epic-banner" id="vijayBanner">
+                    <div class="banner-icon">🔥</div>
+                    <div class="banner-text">
+                        <span class="banner-title">VIJAY DARSHANA</span>
+                        <span class="banner-sub" id="bankValue">Stash: 💎 0</span>
+                    </div>
+                </div>
+
+                <div class="boards-compact">
+                    <div class="card board-block">
+                        <div class="board-title">Y</div>
+                        <div class="treasure-grid" id="boardY"></div>
+                    </div>
+                    <div class="card board-block">
+                        <div class="board-title">K</div>
+                        <div class="treasure-grid" id="boardK"></div>
+                    </div>
+                </div>
+
+                <div class="action-grid">
+                    <button id="kumbhaBtn" class="epic-btn-red"><span class="btn-icon">🔥</span> Clear Kumbha</button>
+                    <button id="undoBtn" class="epic-btn-gold"><span class="btn-icon">↩</span> Undo</button>
+                    <button id="prayogaBtn" class="epic-btn-purple"><span class="btn-icon">⚡</span> Prayoga</button>
+                </div>
+
+                <div class="status-grid">
+                    <div class="status-box">
+                        <div class="status-label"><span style="color: #ff4d4d;">🔥</span> LAST RESULT</div>
+                        <div class="status-value" id="lastResultValue">- VS -</div>
+                    </div>
+                    <div class="status-box">
+                        <div class="status-label"><span style="color: #ffaa00;">➔</span> NEXT AHUTI</div>
+                        <div class="status-value" style="font-size: 16px;" id="nextY">Y -</div>
+                        <div class="status-value" style="font-size: 16px; margin-top: 4px;" id="nextK">K -</div>
+                    </div>
+                </div>
+                
+                <div style="text-align: center; margin-top: 10px; color: var(--gold); font-family: 'Marcellus', serif; font-size: 14px;" id="chakraValue">Wave : 0</div>
+            </div>
+
+            <div id="screen-vyuha" class="screen">
+                <div class="split-grid">
+                    <div class="card">
+                        <div class="label">Yaksha Array</div>
+                        <div class="state-grid" id="vyuhaY"></div>
+                    </div>
+                    <div class="card">
+                        <div class="label">Kinnara Array</div>
+                        <div class="state-grid" id="vyuhaK"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="screen-granth" class="screen">
+                <div class="card">
+                    <div class="toolbar">
+                        <div class="label">Archive Controls</div>
+                        <div class="btn-row">
+                            <button id="historyUndoBtn" class="epic-btn-gold" style="padding: 6px 12px; font-size: 12px;">⏪ Undo</button>
+                        </div>
+                    </div>
+                    <div class="action-strip">
+                        <select id="granthExportFormat" style="flex:1; background:rgba(0,0,0,0.8); border:1px solid var(--gold); color:#FFF; border-radius:10px; padding:8px; font-family: 'Cinzel', serif;">
+                            <option value="xlsx">Excel (.xlsx)</option>
+                            <option value="csv">CSV Sheet</option>
+                            <option value="json">JSON Backup</option>
+                        </select>
+                        <button id="exportGranthBtn" class="epic-btn-gold" style="flex:1">Export</button>
+                        <button id="importGranthBtn" class="epic-btn-gold" style="flex:1">Import</button>
+                        <input type="file" id="importGranthFile" accept=".json,.csv,.xlsx" class="hidden">
+                    </div>
+                    <div class="action-strip" style="margin-top:8px;">
+                        <select id="deleteKumbhSelect" style="flex:2; background:rgba(0,0,0,0.8); border:1px solid #cf4c3c; color:#FFF; border-radius:10px; padding:8px; font-family: 'Cinzel', serif;">
+                            <option value="">Select Raid</option>
+                        </select>
+                        <button id="deleteGranthBtn" class="epic-btn-red" style="flex:1">Delete</button>
+                    </div>
+                </div>
+                <div id="granthList" style="margin-top: 12px; display: grid; gap: 12px;"></div>
+            </div>
+
+            <div id="screen-drishti" class="screen">
+                <div class="summary-grid">
+                    <div class="card"><div class="label">Total Waves</div><div class="stat-value" id="sumChakras">0</div></div>
+                    <div class="card"><div class="label">Total Magic</div><div class="stat-value" id="sumAhuti">0</div></div>
+                    <div class="card"><div class="label">Net Gain</div><div class="stat-value" id="sumProfit">0</div></div>
+                    <div class="card"><div class="label">Max Exposure</div><div class="stat-value" id="sumExposure">0</div></div>
+                </div>
+                
+                <div class="card" style="margin-top: 12px;">
+                    <div class="action-strip">
+                        <button id="exportCsvBtn" class="epic-btn-gold" style="flex:1">Export CSV</button>
+                        <button id="exportPdfBtn" class="epic-btn-gold" style="flex:1">Export PDF</button>
+                        <button id="loadCsvBtn" class="epic-btn-gold" style="flex:1">Import CSV</button>
+                        <input type="file" id="loadCsvFile" accept=".csv" class="hidden">
+                    </div>
+                </div>
+
+                <div class="table-wrap">
+                    <table id="drishtiTable">
+                        <thead>
+                            <tr>
+                                <th>Side</th><th>Summon</th><th>Act. Wave</th><th>Win Wave</th>
+                                <th>Tiers</th><th>Prev Loss</th><th>Win Bet</th><th>Net Profit</th><th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="screen-sopana" class="screen">
+                <div class="card">
+                    <div class="action-strip">
+                        <button id="saveLadderBtn" class="epic-btn-gold">Save Edit</button>
+                        <button id="resetLadderBtn" class="epic-btn-red">Reset Default</button>
+                    </div>
+                    <div class="action-strip" style="margin-top:8px;">
+                        <button id="exportLadderBtn" class="epic-btn-gold">Export CSV</button>
+                        <button id="loadLadderBtn" class="epic-btn-gold">Import CSV</button>
+                        <input type="file" id="loadLadderFile" accept=".csv" class="hidden">
+                    </div>
+                </div>
+                
+                <h3 style="color: var(--gold); margin-top: 16px; font-size: 14px; text-align: center;">Ladder 1 (Standard)</h3>
+                <div class="table-wrap">
+                    <table id="ladderTable">
+                        <thead>
+                            <tr><th>Tier</th><th>Bet</th><th>Win Return</th><th>Net Profit</th><th>If Lose</th></tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+
+                <h3 style="color: var(--gold); margin-top: 16px; font-size: 14px; text-align: center;">Ladder 2 (Revive Mode)</h3>
+                <div class="table-wrap">
+                    <table id="secondLadderTable">
+                        <thead>
+                            <tr><th>Tier</th><th>Bet</th><th>Win Return</th><th>Net Profit</th><th>If Lose</th></tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="screen-yantra" class="screen">
+                <div class="card yantra-card">
+                    <div class="settings-grid">
+                        <label><span>Starting Stash</span><input type="number" id="setBankroll" inputmode="numeric"></label>
+                        <label><span>Target Gain (💎)</span><input type="number" id="setTargetDollar" inputmode="numeric"></label>
+                        <label><span>Target Gain (%)</span><input type="number" id="setTargetPercent" step="0.01" inputmode="decimal"></label>
+                        <label><span>Critical Stop Loss</span><input type="number" id="setStopLoss" inputmode="numeric"></label>
+                        <label><span>Minimum Bet</span><input type="number" id="setMin" inputmode="numeric"></label>
+                        <label><span>Maximum Bet</span><input type="number" id="setMax" inputmode="numeric"></label>
+                        <label><span>Coin Chip Size</span><input type="number" id="setCoin" inputmode="numeric"></label>
+                        <label><span>Recovery Target</span><input type="number" id="setTargetNum" inputmode="numeric"></label>
+                        <label><span>Max Tiers</span><input type="number" id="setMaxSteps" inputmode="numeric"></label>
+                        <label><span>Reserve Alert</span><input type="number" id="setReserve" inputmode="numeric"></label>
+                        <label><span>Stun Limit Per Number</span><input type="number" id="setStopLossPerNumber" inputmode="numeric"></label>
+                        
+                        <label><span>Keypad Mode</span>
+                            <select id="setKeypadMode">
+                                <option value="combined">Combined (Wait for both)</option>
+                                <option value="individual">Individual (Instant entry)</option>
+                            </select>
+                        </label>
+                        <label><span>Double Ladder</span>
+                            <select id="setDoubleLadder">
+                                <option value="on">Aggressive (x2)</option>
+                                <option value="off">Steady (+Coin)</option>
+                            </select>
+                        </label>
+                        <label><span>Stun Rule</span>
+                            <select id="setCapRule">
+                                <option value="on">Enabled (Ask at limit)</option>
+                                <option value="off">Disabled (Never Stop)</option>
+                            </select>
+                        </label>
+
+                        <label><span>Revive Mode (Cap Return)</span>
+                            <select id="setCapReturn">
+                                <option value="on">With Cap Return (Revive)</option>
+                                <option value="off">Without Cap Return (Stay Stunned)</option>
+                            </select>
+                        </label>
+
+                        <label><span>Attack Mode</span>
+                            <select id="setAttackMode">
+                                <option value="classic">Instant (Strike 1)</option>
+                                <option value="thirdstrike">Wait 1 (Strike 2)</option>
+                                <option value="fourthstrike">Wait 2 (Strike 3)</option>
+                            </select>
+                        </label>
+                    </div>
+                    <div class="save-wrap">
+                        <button id="applyYantraBtn" class="epic-btn-gold" style="width: 100%; padding: 14px; font-size: 16px;">Apply Configuration</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="screen-medha" class="screen">
+                <div id="medhaPanel" class="medha-panel"></div>
+            </div>
+
+        </div> <nav class="bottom-nav">
+            <button class="nav active" data-target="sangram">⚔️</button>
+            <button class="nav" data-target="vyuha">🛡️</button>
+            <button class="nav" data-target="granth">📜</button>
+            <button class="nav" data-target="drishti">👁️</button>
+            <button class="nav" data-target="sopana">🪜</button>
+            <button class="nav" data-target="yantra">⚙️</button>
+            <button class="nav" data-target="medha">🧠</button>
+        </nav>
+    </div>
+
+    <div id="confirmOverlay" class="modal-overlay hidden" aria-hidden="true">
+        <div class="modal-card">
+            <div class="modal-title" id="confirmTitle">Confirm</div>
+            <div class="modal-text" id="confirmText">Are you sure?</div>
+            <div class="modal-actions">
+                <button id="confirmCancelBtn" class="epic-btn-gold">Cancel</button>
+                <button id="confirmOkBtn" class="epic-btn-red">OK</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="toastLayer" class="toast-layer"></div>
+
+    <script src="app.js"></script>
+</body>
+</html>
