@@ -1,5 +1,7 @@
 const STORAGE_KEY = 'kubera-warhunt-v5pro-final-locked';
 
+// 🔥 CANDY CRUSH SYMBOLS (Intact) 🔥
+const puzzleSymbols = ['🍬', '🍭', '🍫', '🍩', '🍪', '🧁', '🧊', '🍇', '🍓', '🍒', '🍋', '🍏', '🍉', '🍯'];
 const romanMap = ['🌀', 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX'];
 
 let audioCtx = null;
@@ -44,10 +46,25 @@ function triggerStagePopup(amount) {
 
 const defaultSettings = { bankroll: 0, targetDollar: 500, targetPercent: 1.67, stopLoss: 30000, min: 200, max: 3000, coin: 100, targetNum: 1000, doubleLadder: 'on', keypadMode: 'combined', maxSteps: 30, reserve: 20000, capRule: 'on', capReturn: 'on', stopLossPerNumber: -100, attackMode: 'classic', theme: 'warhunt', vaultBg: 'bg-molten' };
 const titles = { sangram:'⚔ SANGRAM', vyuha:'🛡 VYUHA', granth:'📜 GRANTH', drishti:'👁 DRISHTI', sopana:'🪜 SOPANA', yantra:'⚙ YANTRA', medha:'🧠 MEDHA' };
-const themePalette = { warhunt: { themeColor:'#050200' }, temple: { themeColor:'#140b05' }, vault: { themeColor:'#04110b' }, oracle: { themeColor:'#050816' }, crimson: { themeColor:'#130507' }, onyx: { themeColor:'#040405' }, sapphire: { themeColor:'#040a15' }, emerald: { themeColor:'#03110d' }, moon: { themeColor:'#0c0b14' }, thunder: { themeColor:'#060810' } };
+const themePalette = { warhunt: { themeColor:'#050200' }, temple: { themeColor:'#0a0502' } };
 
 function applyTheme(themeName){ const theme = themePalette[themeName] ? themeName : 'warhunt'; document.documentElement.dataset.theme = theme; const meta = document.querySelector('meta[name="theme-color"]'); if(meta) meta.setAttribute('content', themePalette[theme].themeColor); }
 function applyBackground(bgName){ document.body.setAttribute('data-vault-bg', bgName || 'bg-molten'); }
+
+function spawnButtonParticles(side, num, type) {
+  const btn = document.querySelector(`button.tile[data-side="${side}"][data-num="${num}"]`);
+  let cx = window.innerWidth / 2; let cy = window.innerHeight / 2;
+  if (btn) { const rect = btn.getBoundingClientRect(); cx = rect.left + rect.width / 2; cy = rect.top + rect.height / 2; }
+  const emojis = ['🍬','🍭','✨','💥','🌟','🍓'];
+  for (let i = 0; i < 15; i++) {
+      const p = document.createElement('div'); p.className = `particle ${type}`; p.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+      p.style.left = cx + 'px'; p.style.top = cy + 'px';
+      const angle = Math.random() * Math.PI * 2; const distance = Math.random() * 90 + 40;
+      const dx = Math.cos(angle) * distance; const dy = Math.sin(angle) * distance - (type === 'win' ? 60 : -20);
+      p.style.setProperty('--dx', dx + 'px'); p.style.setProperty('--dy', dy + 'px');
+      document.body.appendChild(p); setTimeout(() => p.remove(), 1200);
+  }
+}
 
 let deferredPrompt = null; let historyStack = []; let redoStack = []; let pending = { Y: null, K: null }; let keypadBusy = false;
 const q = id => document.getElementById(id);
@@ -64,7 +81,7 @@ function askModal({ title, text, okLabel='OK', cancelLabel='Cancel', okClass='wa
     if(q('confirmTitle')) q('confirmTitle').textContent = title;
     if(q('confirmText')) q('confirmText').textContent = text;
     const cancelBtn = q('confirmCancelBtn'); if(cancelBtn) cancelBtn.textContent = cancelLabel;
-    const okBtn = q('confirmOkBtn'); if(okBtn) { okBtn.textContent = okLabel; okBtn.className = okClass === 'warn' ? 'epic-btn-red' : 'epic-btn-gold'; }
+    const okBtn = q('confirmOkBtn'); if(okBtn) { okBtn.textContent = okLabel; }
     const overlay = q('confirmOverlay');
     const cleanup = (result) => { if(overlay) { overlay.classList.add('hidden'); overlay.setAttribute('aria-hidden','true'); } if(okBtn) okBtn.onclick = null; if(cancelBtn) cancelBtn.onclick = null; if(overlay) overlay.onclick = null; resolve(result); };
     if(okBtn) okBtn.onclick = () => cleanup(true);
@@ -166,14 +183,28 @@ function statusCode(info){
 }
 function vijayDarshanaDisplay(info){ const bet=currentBetFor(info); return { bet, displayStep:Math.max(1,(Number(info.step)||1)-1), displayNet:(bet*8)-(Number(info.prevLoss)||0) }; }
 
-// 🔥 RENDER BOARDS (EPIC MYTHOLOGY NUMBER STYLE) 🔥
+// 🔥 RENDERS EPIC ORNATE BOARDS BUT KEEPS CANDIES INSIDE 🔥
 function renderBoards(){
   ['Y','K'].forEach(side=>{
     const host=q(side==='Y'?'boardY':'boardK'); if(!host) return;
     const layout = [1, 2, 3, 4, 5, 6, 7, 8, 9, 'D1', 0, 'D2'];
-    host.innerHTML = ''; // Re-render entirely since we removed Candy CSS
     
-    layout.forEach(n => {
+    if (host.children.length === 0) {
+        layout.forEach(n => {
+            const btn = document.createElement('button');
+            btn.dataset.side = side; btn.dataset.num = String(n);
+            btn.innerHTML = `
+                <div class="num" style="display: block !important; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 50px !important; font-weight: 900; color: rgba(255, 170, 0, 0.15) !important; z-index: 1; pointer-events: none;">${n === 'D1' || n === 'D2' ? '' : n}</div>
+                <div class="decoy-symbol">${n === 'D1' || n === 'D2' ? '' : puzzleSymbols[Math.floor(Math.random() * puzzleSymbols.length)]}</div>
+                <div class="decoy-overlay"></div>
+                <div class="meta"></div>
+            `;
+            host.appendChild(btn);
+        });
+    }
+
+    layout.forEach((n, idx) => {
+        const btn = host.children[idx];
         const isDummy = typeof n === 'string';
         const isZero = n === 0;
         const info = (isDummy || isZero) ? null : (state?.numbers?.[side]?.[n] || freshNumber());
@@ -184,43 +215,43 @@ function renderBoards(){
         if (info && info.status !== 'I') classes += ` state-${info.status}`;
         if (isDummy) classes += ' dummy';
         if (isZero) classes += ' zero';
-        
-        const btn = document.createElement('button');
-        btn.type = 'button';
         btn.className = classes.trim();
-        btn.dataset.side = side; 
-        btn.dataset.num = String(n);
-        
-        // Show numbers clearly. Dummy keys are empty/dots to match layout cleanly.
-        let displayContent = (isDummy) ? '•' : n;
 
-        if (!isDummy && !isZero && info && info.status === 'L') {
-            displayContent = `👑<br><span style="font-size: 14px;">${info.lastNet || 0}</span>`;
-            btn.style.background = 'linear-gradient(145deg, #aa5500, #552200)';
-            btn.style.color = '#fff';
-        } else if (!isDummy && !isZero && info && info.status === 'C') {
-            displayContent = '⛓️';
-            btn.style.background = 'linear-gradient(145deg, #550000, #220000)';
-        }
+        const overlay = btn.querySelector('.decoy-overlay');
+        const sym = btn.querySelector('.decoy-symbol');
         
-        btn.innerHTML = `
-            ${displayContent}
-            <div class="meta ${metaClass}">${code}</div>
-        `;
-        host.appendChild(btn);
+        if(overlay) {
+            if (!isDummy && !isZero && info && info.status === 'L') {
+                overlay.innerHTML = `<div class="decoy-score" style="background: rgba(0,0,0,0.8) !important; width: 100%; height: 100%; display:flex; align-items:center; justify-content:center; flex-direction: column;">👑<br><span style="font-size:12px">${info.lastNet || 0}</span></div>`;
+                if(sym) sym.style.opacity = '0.3';
+            }
+            else if (!isDummy && !isZero && info && info.status === 'C') {
+                overlay.innerHTML = `<div class="decoy-stun" style="background: rgba(80,0,0,0.8) !important; width: 100%; height: 100%; display:flex; align-items:center; justify-content:center;">⛓️</div>`;
+                if(sym) sym.style.opacity = '0.3';
+            }
+            else { 
+                overlay.innerHTML = ''; 
+                if(sym) sym.style.opacity = '1';
+            }
+        }
+
+        const metaEl = btn.querySelector('.meta');
+        if(metaEl) {
+            metaEl.className = `meta ${metaClass}`;
+            metaEl.textContent = code;
+        }
     });
   });
 }
 
-function renderVyuha(){ ['Y','K'].forEach(side=>{ const host=q(side==='Y'?'vyuhaY':'vyuhaK'); if(!host) return; host.innerHTML=''; for(let n=1;n<=9;n++){ const info=state.numbers[side][n]; const d=document.createElement('div'); d.className='state-cell'; d.innerHTML=`<div class="num" style="font-size:24px; color:var(--gold); text-shadow:0 2px 4px #000;">[ ${romanMap[Number(n)]} ]</div><div class="meta">${statusCode(info)||'Idle'}</div>`; host.appendChild(d);} }); }
+function renderVyuha(){ ['Y','K'].forEach(side=>{ const host=q(side==='Y'?'vyuhaY':'vyuhaK'); if(!host) return; host.innerHTML=''; for(let n=1;n<=9;n++){ const info=state.numbers[side][n]; const d=document.createElement('div'); d.className='state-cell'; d.innerHTML=`<div class="num" style="font-size:24px; color:var(--gold-bright); text-shadow:0 2px 4px #000;">[ ${romanMap[Number(n)]} ]</div><div class="meta">${statusCode(info)||'Idle'}</div>`; host.appendChild(d);} }); }
 function formatNextAhuti(side){ const groups=new Map(); for(let n=1;n<=9;n++){ const preview=previewNextAhutiFor(state.numbers[side][n]); if(preview){ if(!groups.has(preview.bet)) groups.set(preview.bet,[]); groups.get(preview.bet).push(`[ ${romanMap[Number(n)]} ] (Lv${preview.stepLabel.replace('T', '')})`); } } const parts=[...groups.entries()].sort((a,b)=>b[0]-a[0]).map(([bet,arr])=>`+ ${bet} ➔ ${arr.join(' & ')}`); return `${side === 'Y' ? 'YAKSHA' : 'KINNARA'}: ${parts.join(' | ') || 'Idle'}`; }
 
 function renderSangram(){ 
-    if(q('bankValue')) q('bankValue').textContent=`Stash: 💎 ${Number(state.liveBankroll).toLocaleString('en-IN')}`; 
-    if(q('chakraValue')) q('chakraValue').textContent=`Wave : ${state.currentChakra}`; 
+    if(q('bankValue')) q('bankValue').textContent=`💎 ${Number(state.liveBankroll).toLocaleString('en-IN')}`; 
+    if(q('chakraValue')) q('chakraValue').textContent=`Wave ${state.currentChakra}`; 
     if(q('nextY')) q('nextY').textContent=formatNextAhuti('Y'); 
     if(q('nextK')) q('nextK').textContent=formatNextAhuti('K'); 
-    if(q('nextT')) q('nextT').textContent=`Total Queue: + ${nextPreviewExposureTotal()}`; 
     
     const lastRow = currentKumbh()?.rows?.at(-1); 
     let displayY = '-'; 
@@ -232,7 +263,7 @@ function renderSangram(){
     }
     
     if(q('lastResultValue')) {
-        q('lastResultValue').innerHTML = `<span style="color: #ffaa00;">${displayY}</span> <span style="font-size: 14px; color: #555;">VS</span> <span style="color: #42b7c8;">${displayK}</span>`; 
+        q('lastResultValue').innerHTML = `<span style="color: var(--gold-main);">${displayY}</span> <span style="font-size: 14px; color: #555;">|</span> <span style="color: var(--fire-glow);">${displayK}</span>`; 
     }
 }
 
@@ -281,25 +312,25 @@ function renderGranth(){
   const host=q('granthList'); if(!host) return; host.innerHTML='';
   const sel=q('deleteKumbhSelect');
   if(sel){ sel.innerHTML='<option value=>Select Raid</option>'; if(Array.isArray(state.granth)) state.granth.forEach(k=>{ const op=document.createElement('option'); op.value=String(k.id); op.textContent=`#${String(k.id).padStart(2,'0')} Raid Log`; sel.appendChild(op); }); }
-  if(!Array.isArray(state.granth) || !state.granth.length){ host.innerHTML='<div class="kumbh">No Raid history yet.</div>'; return; }
+  if(!Array.isArray(state.granth) || !state.granth.length){ host.innerHTML='<div class="epic-card" style="text-align:center;">No Raid history yet.</div>'; return; }
   const items=[...state.granth].reverse();
   items.forEach(k=>{
-    const wrap=document.createElement('div'); wrap.className='card'; const insight=kumbhInsights(k.rows||[]);
+    const wrap=document.createElement('div'); wrap.className='epic-card'; const insight=kumbhInsights(k.rows||[]);
     const rows=[...(k.rows||[])].reverse().map(r=>{
       const meta=insight.rowMeta.get(Number(r.chakra)) || { ySelCode:'-', yHitCode:'-', kSelCode:'-', kHitCode:'-', capped:[], returned:[] };
-      return `<tr><td>${r.chakra}</td><td style="font-weight:900; color:var(--gold);">${r.y}</td><td style="font-weight:900; color:var(--gold);">${r.k}</td><td>${meta.ySelCode}</td><td>${meta.yHitCode}</td><td>${meta.kSelCode}</td><td>${meta.kHitCode}</td><td>${formatRoundInfoEntries(meta.capped)}</td><td>${formatRoundInfoEntries(meta.returned)}</td><td>${formatRoundInfoEntries(Array.isArray(r.np)?r.np:(r.np?[r.np]:[]))}</td><td>${r.axyapatra ?? '-'}</td></tr>`;
+      return `<tr><td>${r.chakra}</td><td style="font-weight:900; color:var(--gold-bright);">${r.y}</td><td style="font-weight:900; color:var(--gold-bright);">${r.k}</td><td>${meta.ySelCode}</td><td>${meta.yHitCode}</td><td>${meta.kSelCode}</td><td>${meta.kHitCode}</td><td>${formatRoundInfoEntries(meta.capped)}</td><td>${formatRoundInfoEntries(meta.returned)}</td><td>${formatRoundInfoEntries(Array.isArray(r.np)?r.np:(r.np?[r.np]:[]))}</td><td>${r.axyapatra ?? '-'}</td></tr>`;
     }).join('');
-    const travelRows = [...insight.details.Y, ...insight.details.K].sort((a,b)=>a.hitRound-b.hitRound).map(d=>`<tr><td>${d.side}</td><td><span style="font-size:16px; color:var(--gold); font-weight:bold;">${d.number}</span></td><td>${d.selectedRound}</td><td>${d.hitRound}</td><td>${d.travelSteps}</td></tr>`).join('') || '<tr><td colspan="5">No completed travel yet.</td></tr>';
-    wrap.innerHTML=`<div class="label">#${String(k.id).padStart(2,'0')} Raid Log</div><div class="table-wrap"><table><thead><tr><th>Wave</th><th>Y</th><th>K</th><th>YSel</th><th>YHit</th><th>KSel</th><th>KHit</th><th>Stun</th><th>Revive</th><th>Net XP</th><th>Stash</th></tr></thead><tbody>${rows}</tbody></table></div><div class="granth-summary"><div class="summary-row"><span class="summary-label">Y Freq:</span>${insight.yRptHTML}</div><div class="summary-row"><span class="summary-label">K Freq:</span>${insight.kRptHTML}</div></div><div class="table-wrap"><table><thead><tr><th>Faction</th><th>Summon</th><th>ActiveWave</th><th>LootWave</th><th>Tiers</th></tr></thead><tbody>${travelRows}</tbody></table></div>`;
+    const travelRows = [...insight.details.Y, ...insight.details.K].sort((a,b)=>a.hitRound-b.hitRound).map(d=>`<tr><td>${d.side}</td><td><span style="font-size:16px; color:var(--gold-bright); font-weight:bold;">${d.number}</span></td><td>${d.selectedRound}</td><td>${d.hitRound}</td><td>${d.travelSteps}</td></tr>`).join('') || '<tr><td colspan="5">No completed travel yet.</td></tr>';
+    wrap.innerHTML=`<div class="label">#${String(k.id).padStart(2,'0')} Raid Log</div><div class="table-wrap"><table><thead><tr><th>Wave</th><th>Y</th><th>K</th><th>YSel</th><th>YHit</th><th>KSel</th><th>KHit</th><th>Stun</th><th>Revive</th><th>Net XP</th><th>Stash</th></tr></thead><tbody>${rows}</tbody></table></div><div class="granth-summary" style="margin-top:10px;"><div class="summary-row"><span class="summary-label">Y Freq:</span>${insight.yRptHTML}</div><div class="summary-row"><span class="summary-label">K Freq:</span>${insight.kRptHTML}</div></div><div class="table-wrap" style="margin-top:10px;"><table><thead><tr><th>Faction</th><th>Summon</th><th>ActiveWave</th><th>LootWave</th><th>Tiers</th></tr></thead><tbody>${travelRows}</tbody></table></div>`;
     host.appendChild(wrap);
   });
 }
 
-function renderDrishti(){ if(q('sumChakras')) q('sumChakras').textContent=Math.max(0,state.currentChakra); if(q('sumAhuti')) q('sumAhuti').textContent=state.summary.totalAhuti; if(q('sumProfit')) q('sumProfit').textContent=state.liveBankroll-state.settings.bankroll; if(q('sumExposure')) q('sumExposure').textContent=state.summary.maxExposure; const dt=q('drishtiTable'); if(!dt) return; const tbody=dt.querySelector('tbody'); if(!tbody) return; tbody.innerHTML=''; if(Array.isArray(state.drishti)) [...state.drishti].reverse().forEach(r=>{ const tr=document.createElement('tr'); tr.innerHTML=`<td>${r.side}</td><td><span style="font-size:16px; color:var(--gold); font-weight:bold;">${r.number}</span></td><td>${r.activationChakra}</td><td>${r.winChakra}</td><td>${r.steps}</td><td>${r.prevLoss}</td><td>${r.winBet}</td><td>${r.net}</td><td>${r.status}</td>`; tbody.appendChild(tr); }); }
+function renderDrishti(){ if(q('sumChakras')) q('sumChakras').textContent=Math.max(0,state.currentChakra); if(q('sumAhuti')) q('sumAhuti').textContent=state.summary.totalAhuti; if(q('sumProfit')) q('sumProfit').textContent=state.liveBankroll-state.settings.bankroll; if(q('sumExposure')) q('sumExposure').textContent=state.summary.maxExposure; const dt=q('drishtiTable'); if(!dt) return; const tbody=dt.querySelector('tbody'); if(!tbody) return; tbody.innerHTML=''; if(Array.isArray(state.drishti)) [...state.drishti].reverse().forEach(r=>{ const tr=document.createElement('tr'); tr.innerHTML=`<td>${r.side}</td><td><span style="font-size:16px; color:var(--gold-bright); font-weight:bold;">${r.number}</span></td><td>${r.activationChakra}</td><td>${r.winChakra}</td><td>${r.steps}</td><td>${r.prevLoss}</td><td>${r.winBet}</td><td>${r.net}</td><td>${r.status}</td>`; tbody.appendChild(tr); }); }
 function renderSopana(){ const lt=q('ladderTable'); if(!lt) return; const tbody=lt.querySelector('tbody'); if(!tbody) return; tbody.innerHTML=''; state.ladder.forEach((row,idx)=>{ const tr=document.createElement('tr'); tr.innerHTML=`<td>${row.step}</td><td><input type="number" data-ladder-index="${idx}" inputmode="numeric" enterkeyhint="next" value="${row.bet}"></td><td>${row.winReturn}</td><td>${row.netProfit}</td><td>${row.ifLoseTotal}</td>`; tbody.appendChild(tr); }); const secondTable=q('secondLadderTable'); if(secondTable){ const tbody2=secondTable.querySelector('tbody'); if(tbody2) { tbody2.innerHTML=''; let prevLoss=0; for(let i=1;i<=Math.min(state.settings.maxSteps,15);i++){ const bet=secondLadderBet(i); const winReturn=bet*9; prevLoss += bet; const tr=document.createElement('tr'); tr.innerHTML=`<td>T${i}</td><td><input type="number" data-second-ladder-index="${i-1}" inputmode="numeric" enterkeyhint="next" value="${bet}"></td><td>${winReturn}</td><td>${winReturn - prevLoss}</td><td>${-prevLoss}</td>`; tbody2.appendChild(tr); } } } }
-function renderYantra(){ const s=state.settings; if(q('setBankroll')) q('setBankroll').value=s.bankroll; if(q('setTargetDollar')) q('setTargetDollar').value=s.targetDollar; if(q('setTargetPercent')) q('setTargetPercent').value=s.targetPercent; if(q('setStopLoss')) q('setStopLoss').value=s.stopLoss; if(q('setMin')) q('setMin').value=s.min; if(q('setMax')) q('setMax').value=s.max; if(q('setCoin')) q('setCoin').value=s.coin; if(q('setTargetNum')) q('setTargetNum').value=s.targetNum; if(q('setDoubleLadder')) q('setDoubleLadder').value=s.doubleLadder||'on'; if(q('setKeypadMode')) q('setKeypadMode').value=s.keypadMode; if(q('setMaxSteps')) q('setMaxSteps').value=s.maxSteps; if(q('setReserve')) q('setReserve').value=s.reserve; if(q('setCapRule')) q('setCapRule').value=s.capRule; if(q('setCapReturn')) q('setCapReturn').value=s.capReturn || 'on'; if(q('setAttackMode')) q('setAttackMode').value=s.attackMode || 'classic'; if(q('setTheme')) q('setTheme').value=s.theme || 'warhunt'; if(q('setVaultBg')) q('setVaultBg').value=s.vaultBg || 'bg-molten'; if(q('setStopLossPerNumber')) q('setStopLossPerNumber').value=s.stopLossPerNumber ?? -100; }
-function renderMedha(){ const active=[]; const cap=[]; ['Y','K'].forEach(side=>{ for(let n=1;n<=9;n++){ const info=state.numbers[side][n]; if(info.status==='A'||info.status==='B') active.push(`${side} ${n} T${info.step}`); if(info.status==='C') cap.push(`${side} ${n}`);} }); if(q('medhaPanel')) q('medhaPanel').innerHTML=`<div class="medha-item"><div class="label">Active Summons</div><div style="font-size:16px">${active.join(' | ') || 'None'}</div></div><div class="medha-item"><div class="label">Stunned Summons</div><div style="font-size:16px">${cap.join(' | ') || 'None'}</div></div>`; }
-function renderActiveTab(){ document.querySelectorAll('.screen').forEach(s=>s.classList.toggle('active',s.id===`screen-${state.activeTab}`)); document.querySelectorAll('.nav').forEach(b=>b.classList.toggle('active',b.dataset.target===state.activeTab)); if(q('screenTitle')) q('screenTitle').textContent=titles[state.activeTab]||titles.sangram; }
+function renderYantra(){ const s=state.settings; if(q('setBankroll')) q('setBankroll').value=s.bankroll; if(q('setTargetDollar')) q('setTargetDollar').value=s.targetDollar; if(q('setTargetPercent')) q('setTargetPercent').value=s.targetPercent; if(q('setStopLoss')) q('setStopLoss').value=s.stopLoss; if(q('setMin')) q('setMin').value=s.min; if(q('setMax')) q('setMax').value=s.max; if(q('setCoin')) q('setCoin').value=s.coin; if(q('setTargetNum')) q('setTargetNum').value=s.targetNum; if(q('setDoubleLadder')) q('setDoubleLadder').value=s.doubleLadder||'on'; if(q('setKeypadMode')) q('setKeypadMode').value=s.keypadMode; if(q('setMaxSteps')) q('setMaxSteps').value=s.maxSteps; if(q('setReserve')) q('setReserve').value=s.reserve; if(q('setCapRule')) q('setCapRule').value=s.capRule; if(q('setCapReturn')) q('setCapReturn').value=s.capReturn || 'on'; if(q('setAttackMode')) q('setAttackMode').value=s.attackMode || 'classic'; }
+function renderMedha(){ const active=[]; const cap=[]; ['Y','K'].forEach(side=>{ for(let n=1;n<=9;n++){ const info=state.numbers[side][n]; if(info.status==='A'||info.status==='B') active.push(`${side} ${n} T${info.step}`); if(info.status==='C') cap.push(`${side} ${n}`);} }); if(q('medhaPanel')) q('medhaPanel').innerHTML=`<div class="epic-card"><div class="label">Active Summons</div><div style="font-size:16px">${active.join(' | ') || 'None'}</div></div><div class="epic-card" style="margin-top:10px;"><div class="label">Stunned Summons</div><div style="font-size:16px">${cap.join(' | ') || 'None'}</div></div>`; }
+function renderActiveTab(){ document.querySelectorAll('.screen').forEach(s=>s.classList.toggle('active',s.id===`screen-${state.activeTab}`)); document.querySelectorAll('.nav').forEach(b=>b.classList.toggle('active',b.dataset.target===state.activeTab)); }
 function renderAll(){ applyTheme(state.settings.theme || 'warhunt'); applyBackground(state.settings.vaultBg || 'bg-molten'); renderActiveTab(); renderBoards(); renderVyuha(); renderSangram(); renderGranth(); renderDrishti(); renderSopana(); renderYantra(); renderMedha(); saveState(); }
 
 function startPrayoga(){ if(state.currentChakra===0 && !(currentKumbh()?.rows?.length)){ state.liveBankroll = state.settings.bankroll; } else if(state.currentChakra!==0 || currentKumbh()?.rows?.length){ state.currentKumbhId=null; state.liveBankroll = state.settings.bankroll; state.currentChakra=0; state.numbers={Y:createSide(),K:createSide()}; state.drishti=[]; state.summary={totalAhuti:0,maxExposure:0}; pending={Y:null,K:null}; } const kumbh=ensureKumbh(); state.activeTab='sangram'; renderAll(); showToast('RAID STARTED', `Entering Zone #${String(kumbh.id).padStart(2,'0')}`); }
@@ -309,7 +340,6 @@ function undoLast(){ const prev=historyStack.pop(); if(!prev) return; redoStack.
 function redoLast(){ const next=redoStack.pop(); if(!next) return; historyStack.push(historySnapshot()); restoreSnapshot(next); renderAll(); showToast('TIMELINE RESTORED','Wave restored'); }
 function pushDrishti(rec){ if(!Array.isArray(state.drishti)) state.drishti = []; state.drishti.push(rec); }
 
-// 🔥 SILENT CALCULATORS - RESPECTS CAP RETURN SETTING 🔥
 function resolveNumberSilent(side,num,rowEvents,shouldReturnFromCap=false){
   const info=state.numbers[side][num];
   if(!info || info.status==='L') return;
@@ -399,10 +429,62 @@ async function processIndividual(side,num){ recordSnapshot(); state.currentChakr
   state.liveBankroll -= exposure; state.summary.totalAhuti += exposure; state.summary.maxExposure = Math.max(state.summary.maxExposure, exposure); const notes=[]; const rowEvents={cap:[],ret:[],np:[]}; if(num===0) await advanceAfterLoss(side,notes,rowEvents); else { await advanceAfterLoss(side,[],rowEvents,num); await resolveNumber(side,num,notes,rowEvents); }
   currentKumbh()?.rows.push({ chakra:state.currentChakra, y: side==='Y'?num:'-', k: side==='K'?num:'-', cap:rowEvents.cap, ret:rowEvents.ret, np:rowEvents.np, ahuti:exposure, axyapatra:state.liveBankroll });
   renderAll(); notes.forEach(n=>showToast(n.title,n.text,n.kind||'')); }
+function flashLockedKey(el){ if(!el) return; el.classList.add('key-locked-flash'); setTimeout(()=>el.classList.remove('key-locked-flash'), 220); }
+
+// 🔥 CANDY CRUSH CASCADE ENGINE 🔥
+function triggerCascade(side, clickedNum) {
+    const cols = {
+       '1': [1,4,7,'D1'], '4': [1,4,7,'D1'], '7': [1,4,7,'D1'], 'D1': [1,4,7,'D1'],
+       '2': [2,5,8,0],    '5': [2,5,8,0],    '8': [2,5,8,0],    '0': [2,5,8,0],
+       '3': [3,6,9,'D2'], '6': [3,6,9,'D2'], '9': [3,6,9,'D2'], 'D2': [3,6,9,'D2']
+    };
+    const col = cols[String(clickedNum)];
+    if(!col) return;
+    const cIdx = col.indexOf(clickedNum===0 ? 0 : (typeof clickedNum === 'string' ? clickedNum : Number(clickedNum)));
+    const host = q(side === 'Y' ? 'boardY' : 'boardK');
+    if(!host) return;
+
+    const clickedBtn = host.querySelector(`[data-num="${clickedNum}"]`);
+    if(clickedBtn) {
+        const clickedSym = clickedBtn.querySelector('.decoy-symbol');
+        if(clickedSym) {
+            clickedSym.style.animation = 'none'; void clickedSym.offsetWidth;
+            clickedSym.style.animation = 'candyBlast 0.25s forwards cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+        }
+    }
+
+    setTimeout(() => {
+        for(let i = cIdx; i > 0; i--) {
+            const curBtn = host.querySelector(`[data-num="${col[i]}"]`);
+            const aboveBtn = host.querySelector(`[data-num="${col[i-1]}"]`);
+            if(!curBtn || !aboveBtn) continue;
+            
+            const curSym = curBtn.querySelector('.decoy-symbol');
+            const aboveSym = aboveBtn.querySelector('.decoy-symbol');
+            
+            if(curSym && aboveSym) {
+                curSym.textContent = aboveSym.textContent;
+                curSym.style.animation = 'none'; void curSym.offsetWidth;
+                curSym.style.animation = 'candyDrop 0.3s forwards cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+            }
+        }
+        const topBtn = host.querySelector(`[data-num="${col[0]}"]`);
+        if(topBtn) {
+            const topSym = topBtn.querySelector('.decoy-symbol');
+            if(topSym) {
+                topSym.textContent = puzzleSymbols[Math.floor(Math.random() * puzzleSymbols.length)];
+                topSym.style.animation = 'none'; void topSym.offsetWidth;
+                topSym.style.animation = 'candyDropTop 0.35s forwards cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+            }
+        }
+    }, 150); 
+}
 
 async function handleTap(side,num,el){
   initAudio(); 
   if(keypadBusy) return;
+
+  triggerCascade(side, num);
 
   if (num === 'D1' || num === 'D2') { 
       glowKey(el);
@@ -412,7 +494,7 @@ async function handleTap(side,num,el){
   const isLockedTap = num!==0 && state?.numbers?.[side]?.[num]?.status==='L';
   keypadBusy = true;
   try{
-    glowKey(el);
+    if(isLockedTap) flashLockedKey(el); else glowKey(el);
     if(document.activeElement instanceof HTMLElement && document.activeElement !== el) document.activeElement.blur();
     if(state.settings.keypadMode==='combined'){
       pending[side]=num; renderSangram(); if(pending.Y!==null && pending.K!==null) await processCombined();
@@ -574,15 +656,13 @@ function safeBind(id, fn, event = 'click') {
 function readYantraSettings(){
   const current = clone(state.settings); const bankrollRaw = Number(q('setBankroll')?.value); current.bankroll = Number.isFinite(bankrollRaw) && bankrollRaw >= 0 ? bankrollRaw : defaultSettings.bankroll;
   current.targetDollar = Number(q('setTargetDollar')?.value)||500; current.targetPercent = Number(q('setTargetPercent')?.value)||1.67; current.stopLoss = Number(q('setStopLoss')?.value)||30000; current.min = Number(q('setMin')?.value)||200; current.max = Number(q('setMax')?.value)||3000; current.coin = Number(q('setCoin')?.value)||100; current.targetNum = Number(q('setTargetNum')?.value)||1000; current.doubleLadder = q('setDoubleLadder')?.value || 'on'; current.keypadMode = q('setKeypadMode')?.value || 'combined'; current.maxSteps = Number(q('setMaxSteps')?.value)||30; current.reserve = Number(q('setReserve')?.value)||20000; current.capRule = q('setCapRule')?.value || 'on'; current.capReturn = q('setCapReturn')?.value || 'on';
-  if(q('setAttackMode')) current.attackMode = q('setAttackMode').value || 'classic'; current.theme = q('setTheme')?.value || 'warhunt'; current.vaultBg = q('setVaultBg')?.value || 'bg-molten'; const stopLossPerNumberValue = Number(q('setStopLossPerNumber')?.value); current.stopLossPerNumber = Number.isFinite(stopLossPerNumberValue) ? stopLossPerNumberValue : -100; return current;
+  if(q('setAttackMode')) current.attackMode = q('setAttackMode').value || 'classic'; return current;
 }
 
 async function applyYantraSettings() { 
     if (!(await askApplyYantra())) return; 
     try {
         state.settings = readYantraSettings(); 
-        applyTheme(state.settings.theme || 'warhunt'); 
-        applyBackground(state.settings.vaultBg || 'bg-molten'); 
         state.ladder = buildLadder(state.settings); 
         
         if (!Array.isArray(state.granth)) state.granth = [];
@@ -971,9 +1051,9 @@ function setupInstall(){
         deferredPrompt = e;
         const btn = q('installBtn');
         if(btn) {
-            btn.style.background = '#40b46b'; 
-            btn.style.color = '#fff';
-            btn.textContent = 'READY TO INSTALL';
+            btn.style.color = '#ffcc66';
+            btn.style.textShadow = '0 0 10px #ffcc66';
+            btn.classList.remove('hidden');
         }
     });
     
